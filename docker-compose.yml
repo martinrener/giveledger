@@ -1,6 +1,8 @@
 services:
   nginx:
-    build: ./docker/nginx
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
     ports:
       - "80:80"
     depends_on:
@@ -10,7 +12,9 @@ services:
       - app
 
   php-fpm:
-    build: ./docker/php
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
     volumes:
       - ./app:/app/app
       - ./config:/app/config

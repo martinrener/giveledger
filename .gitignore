@@ -1,2 +1,4 @@
 vendor/
 .env
+frontend/node_modules/
+frontend/.nuxt/
