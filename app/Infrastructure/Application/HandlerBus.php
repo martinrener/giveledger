@@ -8,8 +8,10 @@ final class HandlerBus
 {
     private array $handlers;
 
-    public function __construct(private readonly \PDO $pdo)
-    {
+    public function __construct(
+        private readonly \PDO $pdo,
+        private readonly ?\Redis $redis = null,
+    ) {
         $this->handlers = require __DIR__ . '/../../../config/handlers.php';
     }
 
@@ -21,7 +23,7 @@ final class HandlerBus
             throw new \RuntimeException("No handler registered for command: {$class}");
         }
 
-        $handler = ($this->handlers[$class])($this->pdo);
+        $handler = ($this->handlers[$class])($this->pdo, $this->redis);
 
         return $handler($command);
     }

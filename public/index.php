@@ -8,6 +8,7 @@ use App\Infrastructure\Application\HandlerBus;
 use App\Infrastructure\HTTP\Controller\Auth\AuthController;
 use App\Infrastructure\HTTP\Controller\Campaign\CampaignController;
 use App\Infrastructure\HTTP\Controller\Donation\DonationController;
+use App\Infrastructure\HTTP\Controller\Stream\StreamController;
 use App\Infrastructure\HTTP\Controller\Tenant\TenantController;
 use App\Infrastructure\HTTP\Middleware\AuthMiddleware;
 use App\Infrastructure\HTTP\Middleware\ForbiddenException;
@@ -37,6 +38,15 @@ $pdo = new \PDO(
         \PDO::ATTR_EMULATE_PREPARES   => false,
     ]
 );
+
+// --- Redis ---
+$redis = null;
+try {
+    $redis = new \Redis();
+    $redis->connect((string) getenv('REDIS_HOST'), 6379);
+} catch (\Throwable) {
+    $redis = null;
+}
 
 // --- Request ---
 $method  = $_SERVER['REQUEST_METHOD'];
@@ -87,7 +97,7 @@ try {
 }
 
 // --- Controller factory ---
-$bus = new HandlerBus($pdo);
+$bus = new HandlerBus($pdo, $redis);
 
 $tenantFinder = new TenantFinder($pdo);
 
@@ -96,6 +106,7 @@ $controller = match ($controllerClass) {
     CampaignController::class => new CampaignController($bus, new CampaignFinder($pdo)),
     DonationController::class => new DonationController($bus),
     AuthController::class     => new AuthController($bus, $tenantFinder),
+    StreamController::class   => new StreamController($redis ?? new \Redis()),
 };
 
 // --- Dispatch ---

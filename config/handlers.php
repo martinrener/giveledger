@@ -15,11 +15,22 @@ use App\Application\Campaign\RecordDonationHandler;
 use App\Infrastructure\Domain\CampaignRepository;
 use App\Infrastructure\Domain\TokenStorage;
 use App\Infrastructure\Domain\UserRepository;
+use App\Infrastructure\Event\NullEventBus;
+use App\Infrastructure\Event\RedisEventBus;
 
 return [
-    CreateCampaignCommand::class  => fn(\PDO $pdo) => new CreateCampaignHandler(new CampaignRepository($pdo)),
-    RecordDonationCommand::class  => fn(\PDO $pdo) => new RecordDonationHandler(new CampaignRepository($pdo)),
-    CloseCampaignCommand::class   => fn(\PDO $pdo) => new CloseCampaignHandler(new CampaignRepository($pdo)),
-    RegisterUserCommand::class    => fn(\PDO $pdo) => new RegisterUserHandler(new UserRepository($pdo)),
-    LoginCommand::class           => fn(\PDO $pdo) => new LoginHandler(new UserRepository($pdo), new TokenStorage($pdo)),
+    CreateCampaignCommand::class  => fn(\PDO $pdo, ?\Redis $redis) => new CreateCampaignHandler(
+        new CampaignRepository($pdo),
+        $redis !== null ? new RedisEventBus($redis) : new NullEventBus()
+    ),
+    RecordDonationCommand::class  => fn(\PDO $pdo, ?\Redis $redis) => new RecordDonationHandler(
+        new CampaignRepository($pdo),
+        $redis !== null ? new RedisEventBus($redis) : new NullEventBus()
+    ),
+    CloseCampaignCommand::class   => fn(\PDO $pdo, ?\Redis $redis) => new CloseCampaignHandler(
+        new CampaignRepository($pdo),
+        $redis !== null ? new RedisEventBus($redis) : new NullEventBus()
+    ),
+    RegisterUserCommand::class    => fn(\PDO $pdo, ?\Redis $_redis) => new RegisterUserHandler(new UserRepository($pdo)),
+    LoginCommand::class           => fn(\PDO $pdo, ?\Redis $_redis) => new LoginHandler(new UserRepository($pdo), new TokenStorage($pdo)),
 ];
