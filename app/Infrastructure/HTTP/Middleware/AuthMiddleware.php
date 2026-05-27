@@ -18,10 +18,10 @@ final class AuthMiddleware
 
         $query = $this->pdo->prepare(
             'SELECT u.id AS user_id, u.tenant_id, u.role, t.slug
-             FROM auth_tokens at
-             INNER JOIN users u ON u.id = at.user_id
+             FROM auth_tokens tok
+             INNER JOIN users u ON u.id = tok.user_id
              INNER JOIN tenants t ON t.id = u.tenant_id
-             WHERE at.token = :token AND at.expires_at > NOW()'
+             WHERE tok.token = :token AND tok.expires_at > NOW()'
         );
 
         $query->execute(['token' => $token]);

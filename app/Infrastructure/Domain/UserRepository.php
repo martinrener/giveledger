@@ -32,7 +32,7 @@ final class UserRepository implements UserRepositoryInterface
         $upsertUser = $this->pdo->prepare(
             'INSERT INTO users (id, tenant_id, email, password_hash, role, created_at)
              VALUES (:id, :tenant_id, :email, :password_hash, :role, :created_at)
-             ON DUPLICATE KEY UPDATE email = :email, role = :role'
+             ON DUPLICATE KEY UPDATE email = VALUES(email), role = VALUES(role)'
         );
 
         $upsertUser->execute([

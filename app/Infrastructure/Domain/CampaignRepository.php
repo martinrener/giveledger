@@ -38,7 +38,7 @@ final class CampaignRepository implements CampaignRepositoryInterface
         $upsertCampaign = $this->pdo->prepare(
             'INSERT INTO campaigns (id, tenant_id, name, goal_cents, currency, status, deadline, created_at)
              VALUES (:id, :tenant_id, :name, :goal_cents, :currency, :status, :deadline, NOW())
-             ON DUPLICATE KEY UPDATE name = :name, goal_cents = :goal_cents, status = :status'
+             ON DUPLICATE KEY UPDATE name = VALUES(name), goal_cents = VALUES(goal_cents), status = VALUES(status)'
         );
 
         $upsertCampaign->execute([
