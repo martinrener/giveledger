@@ -8,9 +8,9 @@ final class StreamController
 {
     public function __construct(private readonly \Redis $redis) {}
 
-    public function stream(array $_body, array $params, ?string $tenantId): never
+    public function stream(array $_body, array $_params, ?string $tenantId): never
     {
-        if (!$this->redis->isConnected()) {
+        if ($tenantId === null || !$this->redis->isConnected()) {
             http_response_code(503);
             exit;
         }
