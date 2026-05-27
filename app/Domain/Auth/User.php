@@ -69,6 +69,11 @@ final class User
         return $this->role;
     }
 
+    public function passwordHash(): string
+    {
+        return $this->passwordHash;
+    }
+
     public function createdAt(): \DateTimeImmutable
     {
         return $this->createdAt;
