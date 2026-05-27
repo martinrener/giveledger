@@ -1,0 +1,15 @@
+services:
+  nginx:
+    restart: always
+
+  php-fpm:
+    restart: always
+    volumes: []
+
+  vue:
+    restart: always
+    volumes: []
+
+  mysql:
+    restart: always
+    ports: []
