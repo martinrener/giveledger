@@ -20,6 +20,18 @@ final class TenantFinder
         return $row ?: null;
     }
 
+    public function findById(string $tenantId): ?array
+    {
+        $query = $this->pdo->prepare(
+            'SELECT id, slug, name FROM tenants WHERE id = :id LIMIT 1'
+        );
+
+        $query->execute(['id' => $tenantId]);
+        $row = $query->fetch(\PDO::FETCH_ASSOC);
+
+        return $row ?: null;
+    }
+
     /** @return array<int, array<string, mixed>> */
     public function all(): array
     {

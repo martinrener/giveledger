@@ -14,7 +14,7 @@ final class LoginHandler
         private readonly TokenStorageInterface   $tokens
     ) {}
 
-    public function __invoke(LoginCommand $command): string
+    public function __invoke(LoginCommand $command): array
     {
         $user = $this->users->findByEmail($command->email);
 
@@ -27,6 +27,6 @@ final class LoginHandler
 
         $this->tokens->store($user->id(), $token, $expiresAt);
 
-        return $token;
+        return ['token' => $token, 'tenantId' => $user->tenantId()->value()];
     }
 }
