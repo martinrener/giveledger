@@ -27,6 +27,6 @@ final class LoginHandler
 
         $this->tokens->store($user->id(), $token, $expiresAt);
 
-        return ['token' => $token, 'tenantId' => $user->tenantId()->value()];
+        return ['token' => $token, 'tenantId' => $user->tenantId()->value(), 'userEmail' => $user->email()];
     }
 }

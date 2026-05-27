@@ -17,7 +17,7 @@ final class AuthController
         private readonly TenantFinder $tenantFinder
     ) {}
 
-    public function login(array $body, array $params, ?string $tenantId): array
+    public function login(array $body, array $_params, ?string $_tenantId): array
     {
         $result = $this->bus->dispatch(new LoginCommand(
             email:    $body['email'] ?? '',
@@ -34,10 +34,14 @@ final class AuthController
 
         $tenant = $this->tenantFinder->findById($result['tenantId']);
 
-        return [200, ['slug' => $tenant['slug']]];
+        return [200, [
+            'slug'       => $tenant['slug'],
+            'churchName' => $tenant['name'],
+            'userEmail'  => $result['userEmail'],
+        ]];
     }
 
-    public function register(array $body, array $params, ?string $tenantId): array
+    public function register(array $body, array $_params, ?string $_tenantId): array
     {
         $tenant = $this->tenantFinder->findBySlug($body['tenant_slug'] ?? '');
 
