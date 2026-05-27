@@ -16,7 +16,7 @@ class Campaign
     private function __construct(
         private readonly CampaignId        $id,
         private readonly TenantId          $tenantId,
-        private CampaignName               $name,
+        private readonly CampaignName      $name,
         private readonly Money             $goal,
         private Money                      $raised,
         private CampaignStatus             $status,
