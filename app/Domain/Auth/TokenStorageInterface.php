@@ -7,4 +7,5 @@ namespace App\Domain\Auth;
 interface TokenStorageInterface
 {
     public function store(string $userId, string $token, \DateTimeImmutable $expiresAt): void;
+    public function revoke(string $token): void;
 }

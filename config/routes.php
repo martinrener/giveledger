@@ -22,6 +22,7 @@ return [
     // --- Auth (public) ---
     ['POST', '#^/api/auth/login$#',    'public', AuthController::class, 'login'],
     ['POST', '#^/api/auth/register$#', 'public', AuthController::class, 'register'],
+    ['POST', '#^/api/auth/logout$#',   'public', AuthController::class, 'logout'],
 
     // --- Tenants (public) ---
     ['GET', '#^/api/tenants$#', 'public', TenantController::class, 'index'],

@@ -16,6 +16,7 @@ use App\Infrastructure\HTTP\Middleware\TenantNotFoundException;
 use App\Infrastructure\HTTP\Middleware\TenantResolver;
 use App\Infrastructure\HTTP\Middleware\UnauthenticatedException;
 use App\Infrastructure\Query\CampaignFinder;
+use App\Infrastructure\Query\DonationFinder;
 use App\Infrastructure\Query\TenantFinder;
 
 header('Content-Type: application/json');
@@ -103,9 +104,9 @@ $tenantFinder = new TenantFinder($pdo);
 
 $controller = match ($controllerClass) {
     TenantController::class   => new TenantController($tenantFinder),
-    CampaignController::class => new CampaignController($bus, new CampaignFinder($pdo)),
+    CampaignController::class => new CampaignController($bus, new CampaignFinder($pdo), new DonationFinder($pdo)),
     DonationController::class => new DonationController($bus),
-    AuthController::class     => new AuthController($bus, $tenantFinder),
+    AuthController::class     => new AuthController($bus, $tenantFinder, $cookies),
     StreamController::class   => new StreamController($redis ?? new \Redis()),
 };
 

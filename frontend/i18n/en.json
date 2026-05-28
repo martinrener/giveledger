@@ -1,0 +1,30 @@
+{
+  "campaigns": {
+    "title": "Campaigns",
+    "search": "Search campaigns",
+    "status": {
+      "open": "Open",
+      "closed": "Closed"
+    }
+  },
+  "campaign": {
+    "goal": "Goal",
+    "raised": "Raised",
+    "donors": "Donors",
+    "deadline": "Deadline",
+    "donate": "Donate",
+    "close": "Close Campaign"
+  },
+  "donation": {
+    "title": "Make a Donation",
+    "amount": "Amount",
+    "donor": "Your Name",
+    "confirm": "Confirm Donation",
+    "success": "Thank you for your donation!"
+  },
+  "errors": {
+    "not_found": "The requested resource was not found.",
+    "server": "A server error occurred. Please try again.",
+    "tenant": "Church not found."
+  }
+}

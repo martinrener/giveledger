@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use App\Application\Auth\LoginCommand;
 use App\Application\Auth\LoginHandler;
+use App\Application\Auth\LogoutCommand;
+use App\Application\Auth\LogoutHandler;
 use App\Application\Auth\RegisterUserCommand;
 use App\Application\Auth\RegisterUserHandler;
 use App\Application\Campaign\CloseCampaignCommand;
@@ -33,4 +35,5 @@ return [
     ),
     RegisterUserCommand::class    => fn(\PDO $pdo, ?\Redis $_redis) => new RegisterUserHandler(new UserRepository($pdo)),
     LoginCommand::class           => fn(\PDO $pdo, ?\Redis $_redis) => new LoginHandler(new UserRepository($pdo), new TokenStorage($pdo)),
+    LogoutCommand::class          => fn(\PDO $pdo, ?\Redis $_redis) => new LogoutHandler(new TokenStorage($pdo)),
 ];

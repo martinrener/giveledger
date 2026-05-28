@@ -23,4 +23,10 @@ final class TokenStorage implements TokenStorageInterface
             'expires_at' => $expiresAt->format('Y-m-d H:i:s'),
         ]);
     }
+
+    public function revoke(string $token): void
+    {
+        $stmt = $this->pdo->prepare('DELETE FROM auth_tokens WHERE token = :token');
+        $stmt->execute(['token' => $token]);
+    }
 }

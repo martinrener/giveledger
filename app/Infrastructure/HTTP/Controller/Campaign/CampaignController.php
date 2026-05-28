@@ -6,23 +6,29 @@ namespace App\Infrastructure\HTTP\Controller\Campaign;
 
 use App\Application\Campaign\CloseCampaignCommand;
 use App\Application\Campaign\CreateCampaignCommand;
+use App\Infrastructure\Api\Resource\CampaignResource;
 use App\Infrastructure\Application\HandlerBus;
 use App\Infrastructure\Query\CampaignFinder;
+use App\Infrastructure\Query\DonationFinder;
 use Ramsey\Uuid\Uuid;
 
 final class CampaignController
 {
     public function __construct(
         private readonly HandlerBus     $bus,
-        private readonly CampaignFinder $campaignFinder
+        private readonly CampaignFinder $campaignFinder,
+        private readonly DonationFinder $donationFinder,
     ) {}
 
-    public function index(array $body, array $params, ?string $tenantId): array
+    public function index(array $_body, array $_params, ?string $tenantId): array
     {
-        return [200, $this->campaignFinder->allForTenant($tenantId)];
+        $campaigns = $this->campaignFinder->allForTenant($tenantId);
+        $donations  = $this->donationFinder->allForTenant($tenantId);
+
+        return [200, CampaignResource::collection($campaigns, $donations)];
     }
 
-    public function store(array $body, array $params, ?string $tenantId): array
+    public function store(array $body, array $_params, ?string $tenantId): array
     {
         $this->bus->dispatch(new CreateCampaignCommand(
             tenantId:   $tenantId,
@@ -36,7 +42,7 @@ final class CampaignController
         return [201, null];
     }
 
-    public function close(array $body, array $params, ?string $tenantId): array
+    public function close(array $_body, array $params, ?string $tenantId): array
     {
         $this->bus->dispatch(new CloseCampaignCommand(
             tenantId:   $tenantId,
