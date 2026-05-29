@@ -6,11 +6,12 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 FROM php:8.3-fpm AS runtime
 WORKDIR /app
 
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+RUN chmod +x /usr/local/bin/install-php-extensions
+
 RUN apt-get update && apt-get install -y default-mysql-client \
-    && docker-php-ext-install pdo pdo_mysql \
-    && pecl install redis \
-    && docker-php-ext-enable redis \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && install-php-extensions redis pdo_mysql
 
 COPY --from=deps /app/vendor ./vendor
 COPY app/ ./app/
