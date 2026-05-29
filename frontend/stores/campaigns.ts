@@ -13,7 +13,7 @@ export const useCampaignsStore = defineStore(`campaigns`, () => {
     try {
       campaigns.value = await api<Campaign[]>(`/api/donate/${slug}/campaigns`)
     } catch (e) {
-      error.value = e instanceof Error ? e.message : `Failed to load campaigns`
+      error.value = apiError(e, `Failed to load campaigns`)
     } finally {
       loading.value = false
     }
@@ -25,7 +25,7 @@ export const useCampaignsStore = defineStore(`campaigns`, () => {
     try {
       campaigns.value = await api<Campaign[]>(`/api/${slug}/campaigns`)
     } catch (e) {
-      error.value = e instanceof Error ? e.message : `Failed to load campaigns`
+      error.value = apiError(e, `Failed to load campaigns`)
     } finally {
       loading.value = false
     }
@@ -44,7 +44,7 @@ export const useCampaignsStore = defineStore(`campaigns`, () => {
         },
       })
     } catch (e) {
-      error.value = e instanceof Error ? e.message : `Failed to record donation`
+      error.value = apiError(e, `Failed to record donation`)
     } finally {
       loading.value = false
     }
@@ -64,7 +64,7 @@ export const useCampaignsStore = defineStore(`campaigns`, () => {
         },
       })
     } catch (e) {
-      error.value = e instanceof Error ? e.message : `Failed to create campaign`
+      error.value = apiError(e, `Failed to create campaign`)
     } finally {
       loading.value = false
     }
@@ -76,7 +76,7 @@ export const useCampaignsStore = defineStore(`campaigns`, () => {
     try {
       await api(`/api/${slug}/campaigns/${campaignId}/close`, { method: `POST` })
     } catch (e) {
-      error.value = e instanceof Error ? e.message : `Failed to close campaign`
+      error.value = apiError(e, `Failed to close campaign`)
     } finally {
       loading.value = false
     }

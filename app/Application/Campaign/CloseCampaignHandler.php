@@ -29,7 +29,7 @@ final class CloseCampaignHandler
             throw new CampaignNotFoundException($command->campaignId);
         }
 
-        $campaign->close($tenantId);
+        $campaign->forceClose($tenantId);
 
         $this->campaigns->save($campaign);
 

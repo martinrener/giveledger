@@ -90,7 +90,8 @@
     "nameRequired": "Name is required.",
     "nameLength": "Name must be between 3 and 100 characters.",
     "amountPositive": "Amount must be greater than 0.",
-    "invalidCurrency": "Please select a valid currency."
+    "invalidCurrency": "Please select a valid currency.",
+    "deadlineMinTomorrow": "Deadline must be at least one day in the future."
   },
   "errors": {
     "not_found": "The requested resource was not found.",

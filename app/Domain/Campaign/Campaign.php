@@ -30,6 +30,11 @@ class Campaign
         Money $goal,
         \DateTimeImmutable $deadline
     ): self {
+        $tomorrow = (new \DateTimeImmutable('tomorrow'))->format('Y-m-d');
+        if ($deadline->format('Y-m-d') < $tomorrow) {
+            throw new \InvalidArgumentException('Campaign deadline must be at least one day in the future.');
+        }
+
         return new self(
             $id,
             $tenantId,
@@ -73,6 +78,13 @@ class Campaign
         $this->guardTenant($tenantId);
         $this->guardGoalReached();
         $this->guardDeadlinePassed();
+        $this->status = CampaignStatus::closed();
+    }
+
+    public function forceClose(TenantId $tenantId): void
+    {
+        $this->guardTenant($tenantId);
+        $this->guardOpen();
         $this->status = CampaignStatus::closed();
     }
 

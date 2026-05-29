@@ -7,6 +7,8 @@ export interface Props {
   errorMessage?: string
   id?: string
   type?: string
+  min?: string
+  max?: string
 }
 
 const {
@@ -17,6 +19,8 @@ const {
   errorMessage = ``,
   id = ``,
   type = `text`,
+  min = ``,
+  max = ``,
 } = defineProps<Props>()
 
 const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
@@ -44,6 +48,8 @@ const inputCva = cva(
       :value="modelValue"
       :placeholder="placeholder"
       :disabled="state === `disabled`"
+      :min="min || undefined"
+      :max="max || undefined"
       :class="inputCva({ state })"
       @input="emit(`update:modelValue`, ($event.target as HTMLInputElement).value)"
     />

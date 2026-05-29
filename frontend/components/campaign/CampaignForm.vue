@@ -24,6 +24,12 @@ const currencyOptions: SelectOption[] = [
   { value: `UYU`, label: `UYU – Uruguayan Peso` },
 ]
 
+const tomorrow = computed(() => {
+  const d = new Date()
+  d.setDate(d.getDate() + 1)
+  return d.toISOString().split(`T`)[0]
+})
+
 const emit = defineEmits<{ submit: [payload: CreateCampaignPayload] }>()
 
 const validate = (): boolean => {
@@ -46,8 +52,8 @@ const validate = (): boolean => {
     errors.currency = $t(`validation.invalidCurrency`)
     valid = false
   }
-  if (!deadline.value) {
-    errors.deadline = $t(`validation.required`)
+  if (!deadline.value || deadline.value < tomorrow.value) {
+    errors.deadline = $t(`validation.deadlineMinTomorrow`)
     valid = false
   }
 
@@ -101,6 +107,7 @@ const handleSubmit = () => {
       id="campaign-deadline"
       v-model="deadline"
       type="date"
+      :min="tomorrow"
       :label="$t(`campaign.deadline`)"
       :state="errors.deadline ? `error` : `default`"
       :error-message="errors.deadline"

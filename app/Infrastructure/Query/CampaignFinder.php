@@ -11,6 +11,8 @@ final class CampaignFinder
     /** @return array<int, array<string, mixed>> */
     public function allForTenant(string $tenantId): array
     {
+        $this->autoClose($tenantId);
+
         $query = $this->pdo->prepare(
             'SELECT c.id, c.name, c.goal_cents, c.currency, c.status, c.deadline,
                     COALESCE(SUM(d.amount_cents), 0) AS raised_cents
@@ -28,6 +30,8 @@ final class CampaignFinder
 
     public function findById(string $campaignId, string $tenantId): ?array
     {
+        $this->autoClose($tenantId);
+
         $query = $this->pdo->prepare(
             'SELECT c.id, c.name, c.goal_cents, c.currency, c.status, c.deadline,
                     COALESCE(SUM(d.amount_cents), 0) AS raised_cents
@@ -41,5 +45,25 @@ final class CampaignFinder
         $row = $query->fetch(\PDO::FETCH_ASSOC);
 
         return $row ?: null;
+    }
+
+    private function autoClose(string $tenantId): void
+    {
+        $stmt = $this->pdo->prepare(
+            'UPDATE campaigns
+             SET status = \'closed\'
+             WHERE tenant_id = :tenant_id
+               AND status    = \'open\'
+               AND (
+                 deadline < CURDATE()
+                 OR goal_cents <= (
+                   SELECT COALESCE(SUM(d.amount_cents), 0)
+                   FROM donations d
+                   WHERE d.campaign_id = campaigns.id
+                 )
+               )'
+        );
+
+        $stmt->execute(['tenant_id' => $tenantId]);
     }
 }
