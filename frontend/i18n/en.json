@@ -56,6 +56,15 @@
     "confirm_title": "Confirm your donation",
     "confirm_body": "{name} · {amount} to \"{campaign}\""
   },
+  "donors": {
+    "title": "Donors",
+    "donor": "Donor",
+    "amount": "Amount",
+    "date": "Date",
+    "empty": "No donations yet.",
+    "total": "Total raised",
+    "back_to_dashboard": "Back to Dashboard"
+  },
   "tenant": {
     "select": "Select your church",
     "visit": "View Campaigns"

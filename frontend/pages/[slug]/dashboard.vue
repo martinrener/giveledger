@@ -69,6 +69,7 @@ useSse(
       :campaigns="campaigns"
       :loading="loading"
       :admin-mode="true"
+      :slug="slug"
       @close="handleCloseRequest"
     />
 

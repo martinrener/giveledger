@@ -8,7 +8,10 @@ export interface Props {
 
 const { campaigns, adminMode = false } = defineProps<Props>()
 
-const emit = defineEmits<{ close: [id: string] }>()
+const emit = defineEmits<{
+  close:    [id: string]
+  rowClick: [id: string]
+}>()
 
 const { t: $t }       = useI18n()
 const { formatCents } = useCurrency()
@@ -19,7 +22,11 @@ const { formatCents } = useCurrency()
     <tr
       v-for="c in campaigns"
       :key="c.id"
-      class="hover:bg-neutral-50 transition-colors"
+      :class="[
+        `transition-colors`,
+        adminMode ? `cursor-pointer hover:bg-primary-50` : `hover:bg-neutral-50`,
+      ]"
+      @click="adminMode && emit(`rowClick`, c.id)"
     >
       <td class="px-4 py-3 font-medium text-neutral-900">{{ c.name }}</td>
       <td class="px-4 py-3">
@@ -42,7 +49,7 @@ const { formatCents } = useCurrency()
           v-if="c.status === `open`"
           variant="danger"
           size="sm"
-          @click="emit(`close`, c.id)"
+          @click.stop="emit(`close`, c.id)"
         >
           {{ $t(`campaign.close`) }}
         </BaseButton>
