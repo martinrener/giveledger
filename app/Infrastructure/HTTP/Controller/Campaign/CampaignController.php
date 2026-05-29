@@ -28,6 +28,14 @@ final class CampaignController
         return [200, CampaignResource::collection($campaigns, $donations)];
     }
 
+    public function publicIndex(array $_body, array $_params, ?string $tenantId): array
+    {
+        $campaigns = $this->campaignFinder->allOpenForTenant($tenantId);
+        $donations  = $this->donationFinder->allForTenant($tenantId);
+
+        return [200, CampaignResource::collection($campaigns, $donations)];
+    }
+
     public function store(array $body, array $_params, ?string $tenantId): array
     {
         $this->bus->dispatch(new CreateCampaignCommand(

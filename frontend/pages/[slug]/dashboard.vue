@@ -33,6 +33,11 @@ const handleCloseConfirm = async () => {
 }
 
 onMounted(() => store.fetchAdminCampaigns(slug.value))
+
+useSse(
+  () => `/api/${slug.value}/stream`,
+  () => store.fetchAdminCampaigns(slug.value),
+)
 </script>
 
 <template>

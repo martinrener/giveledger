@@ -28,7 +28,7 @@ return [
     ['GET', '#^/api/tenants$#', 'public', TenantController::class, 'index'],
 
     // --- Public donation routes (TenantResolver) ---
-    ['GET',  '#^/api/donate/(?P<slug>[^/]+)/campaigns$#',                                       'tenant', CampaignController::class,  'index'],
+    ['GET',  '#^/api/donate/(?P<slug>[^/]+)/campaigns$#',                                       'tenant', CampaignController::class,  'publicIndex'],
     ['POST', '#^/api/donate/(?P<slug>[^/]+)/campaigns/(?P<campaignId>[^/]+)/donations$#',       'tenant', DonationController::class,  'store'],
     ['GET',  '#^/api/donate/(?P<slug>[^/]+)/stream$#',                                          'tenant', StreamController::class,    'stream'],
 

@@ -16,7 +16,7 @@ const search = ref(``)
 const filtered = computed(() =>
   _.chain(campaigns.value)
     .filter(c => c.name.toLowerCase().includes(search.value.toLowerCase()))
-    .orderBy([`status`, `name`], [`asc`, `asc`])
+    .orderBy(`name`, `asc`)
     .value()
 )
 
@@ -25,6 +25,11 @@ const handleDonate = (campaignId: string) => {
 }
 
 onMounted(() => store.fetchCampaigns(slug.value))
+
+useSse(
+  () => `/api/donate/${slug.value}/stream`,
+  () => store.fetchCampaigns(slug.value),
+)
 </script>
 
 <template>

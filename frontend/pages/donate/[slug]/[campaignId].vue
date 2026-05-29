@@ -16,6 +16,8 @@ const campaign = computed(() =>
   _.find(campaigns.value, c => c.id === campaignId.value) ?? null
 )
 
+const isClosed = computed(() => campaign.value?.status === `closed`)
+
 const pending   = ref<RecordDonationPayload | null>(null)
 const showModal = ref(false)
 const succeeded = ref(false)
@@ -35,6 +37,16 @@ const handleConfirm = async () => {
 }
 
 onMounted(() => store.fetchCampaigns(slug.value))
+
+useSse(
+  () => `/api/donate/${slug.value}/stream`,
+  (_type, data) => {
+    const d = data as { campaignId?: string }
+    if (d?.campaignId === campaignId.value) {
+      store.fetchCampaigns(slug.value)
+    }
+  },
+)
 </script>
 
 <template>
@@ -58,7 +70,14 @@ onMounted(() => store.fetchCampaigns(slug.value))
         <ProgressBar :raised-cents="campaign.raisedCents" :goal-cents="campaign.goalCents" />
       </div>
 
-      <AlertBanner v-if="succeeded" variant="success" class="text-center">
+      <AlertBanner v-if="isClosed" variant="warning">
+        This campaign is no longer accepting donations.
+        <NuxtLink :to="`/donate/${slug}`" class="ml-1 font-medium underline">
+          ← {{ $t(`common.back`) }}
+        </NuxtLink>
+      </AlertBanner>
+
+      <AlertBanner v-else-if="succeeded" variant="success" class="text-center">
         <p class="font-semibold">{{ $t(`donation.success`) }}</p>
         <NuxtLink
           :to="`/donate/${slug}`"
