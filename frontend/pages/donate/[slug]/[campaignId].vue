@@ -16,9 +16,9 @@ const campaign = computed(() =>
   _.find(campaigns.value, c => c.id === campaignId.value) ?? null
 )
 
-const pending    = ref<RecordDonationPayload | null>(null)
-const showModal  = ref(false)
-const succeeded  = ref(false)
+const pending   = ref<RecordDonationPayload | null>(null)
+const showModal = ref(false)
+const succeeded = ref(false)
 
 const handleFormSubmit = (payload: RecordDonationPayload) => {
   pending.value   = payload
@@ -34,10 +34,6 @@ const handleConfirm = async () => {
   }
 }
 
-const handleModalClose = () => {
-  showModal.value = false
-}
-
 onMounted(() => store.fetchCampaigns(slug.value))
 </script>
 
@@ -45,30 +41,24 @@ onMounted(() => store.fetchCampaigns(slug.value))
   <div class="mx-auto max-w-lg">
     <p v-if="loading" class="text-sm text-neutral-400">{{ $t(`common.loading`) }}</p>
 
-    <p v-else-if="!campaign" class="text-sm text-red-600">
+    <AlertBanner v-else-if="!campaign" variant="error">
       {{ $t(`errors.not_found`) }}
-    </p>
+    </AlertBanner>
 
     <template v-else>
       <div class="mb-6 flex flex-col gap-1">
         <h1 class="text-2xl font-bold text-neutral-900">{{ campaign.name }}</h1>
-        <ProgressBar
-          :raised-cents="campaign.raisedCents"
-          :goal-cents="campaign.goalCents"
-        />
+        <ProgressBar :raised-cents="campaign.raisedCents" :goal-cents="campaign.goalCents" />
       </div>
 
-      <div
-        v-if="succeeded"
-        class="rounded-xl border border-success-200 bg-success-50 px-6 py-5 text-center"
-      >
-        <p class="font-semibold text-success-800">{{ $t(`donation.success`) }}</p>
-      </div>
+      <AlertBanner v-if="succeeded" variant="success" class="text-center">
+        <p class="font-semibold">{{ $t(`donation.success`) }}</p>
+      </AlertBanner>
 
       <div v-else class="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
         <h2 class="mb-5 text-lg font-semibold text-neutral-900">{{ $t(`donation.title`) }}</h2>
         <DonationForm :currency="campaign.currency" @submit="handleFormSubmit" />
-        <p v-if="error" class="mt-3 text-sm text-red-600">{{ error }}</p>
+        <AlertBanner v-if="error" variant="error" class="mt-3">{{ error }}</AlertBanner>
       </div>
     </template>
 
@@ -80,7 +70,7 @@ onMounted(() => store.fetchCampaigns(slug.value))
       :amount-cents="pending.amountCents"
       :currency="pending.currency"
       @confirm="handleConfirm"
-      @close="handleModalClose"
+      @close="showModal = false"
     />
   </div>
 </template>

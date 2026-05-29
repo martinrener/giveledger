@@ -70,6 +70,15 @@ export const useAuthStore = defineStore(`auth`, () => {
     }
   }
 
+  const clearSession = () => {
+    slug.value       = null
+    churchName.value = null
+    userEmail.value  = null
+    if (import.meta.client) {
+      localStorage.removeItem(`auth_session`)
+    }
+  }
+
   const logout = async () => {
     loading.value = true
     try {
@@ -77,12 +86,7 @@ export const useAuthStore = defineStore(`auth`, () => {
     } catch {
       // server error doesn't block local cleanup
     } finally {
-      slug.value       = null
-      churchName.value = null
-      userEmail.value  = null
-      if (import.meta.client) {
-        localStorage.removeItem(`auth_session`)
-      }
+      clearSession()
       loading.value = false
     }
   }
@@ -98,5 +102,6 @@ export const useAuthStore = defineStore(`auth`, () => {
     login,
     register,
     logout,
+    clearSession,
   }
 })

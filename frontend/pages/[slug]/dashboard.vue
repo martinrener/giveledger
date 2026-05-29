@@ -12,12 +12,8 @@ const slug  = computed(() => route.params.slug as string)
 const store = useCampaignsStore()
 const { campaigns, loading, error } = storeToRefs(store)
 
-const campaignToClose  = ref<Campaign | null>(null)
-const showCloseModal   = ref(false)
-
-const openCampaigns = computed(() =>
-  _.filter(campaigns.value, c => c.status === `open`)
-)
+const campaignToClose = ref<Campaign | null>(null)
+const showCloseModal  = ref(false)
 
 const handleCloseRequest = (id: string) => {
   const found = _.find(campaigns.value, c => c.id === id)
@@ -36,11 +32,6 @@ const handleCloseConfirm = async () => {
   }
 }
 
-const handleCloseModalDismiss = () => {
-  showCloseModal.value  = false
-  campaignToClose.value = null
-}
-
 onMounted(() => store.fetchAdminCampaigns(slug.value))
 </script>
 
@@ -53,7 +44,7 @@ onMounted(() => store.fetchAdminCampaigns(slug.value))
       </NuxtLink>
     </div>
 
-    <p v-if="error" class="text-sm text-red-600">{{ error }}</p>
+    <AlertBanner v-if="error" variant="error">{{ error }}</AlertBanner>
 
     <CampaignTable
       :campaigns="campaigns"
@@ -67,7 +58,7 @@ onMounted(() => store.fetchAdminCampaigns(slug.value))
       :open="showCloseModal"
       :campaign="campaignToClose"
       @confirm="handleCloseConfirm"
-      @close="handleCloseModalDismiss"
+      @close="showCloseModal = false; campaignToClose = null"
     />
   </div>
 </template>

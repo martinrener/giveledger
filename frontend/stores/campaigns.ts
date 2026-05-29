@@ -2,14 +2,16 @@ import type { Campaign, CreateCampaignPayload, RecordDonationPayload } from '~/t
 
 export const useCampaignsStore = defineStore(`campaigns`, () => {
   const campaigns = ref<Campaign[]>([])
-  const loading = ref(false)
-  const error = ref<string | null>(null)
+  const loading   = ref(false)
+  const error     = ref<string | null>(null)
+
+  const api = useApi()
 
   const fetchCampaigns = async (slug: string) => {
     loading.value = true
-    error.value = null
+    error.value   = null
     try {
-      campaigns.value = await $fetch<Campaign[]>(`/api/donate/${slug}/campaigns`)
+      campaigns.value = await api<Campaign[]>(`/api/donate/${slug}/campaigns`)
     } catch (e) {
       error.value = e instanceof Error ? e.message : `Failed to load campaigns`
     } finally {
@@ -19,9 +21,9 @@ export const useCampaignsStore = defineStore(`campaigns`, () => {
 
   const fetchAdminCampaigns = async (slug: string) => {
     loading.value = true
-    error.value = null
+    error.value   = null
     try {
-      campaigns.value = await $fetch<Campaign[]>(`/api/${slug}/campaigns`)
+      campaigns.value = await api<Campaign[]>(`/api/${slug}/campaigns`)
     } catch (e) {
       error.value = e instanceof Error ? e.message : `Failed to load campaigns`
     } finally {
@@ -31,9 +33,9 @@ export const useCampaignsStore = defineStore(`campaigns`, () => {
 
   const recordDonation = async (slug: string, campaignId: string, payload: RecordDonationPayload) => {
     loading.value = true
-    error.value = null
+    error.value   = null
     try {
-      await $fetch(`/api/donate/${slug}/campaigns/${campaignId}/donations`, {
+      await api(`/api/donate/${slug}/campaigns/${campaignId}/donations`, {
         method: `POST`,
         body: {
           donor_name:   payload.donorName,
@@ -50,9 +52,9 @@ export const useCampaignsStore = defineStore(`campaigns`, () => {
 
   const createCampaign = async (slug: string, payload: CreateCampaignPayload) => {
     loading.value = true
-    error.value = null
+    error.value   = null
     try {
-      await $fetch(`/api/${slug}/campaigns`, {
+      await api(`/api/${slug}/campaigns`, {
         method: `POST`,
         body: {
           name:       payload.name,
@@ -70,9 +72,9 @@ export const useCampaignsStore = defineStore(`campaigns`, () => {
 
   const closeCampaign = async (slug: string, campaignId: string) => {
     loading.value = true
-    error.value = null
+    error.value   = null
     try {
-      await $fetch(`/api/${slug}/campaigns/${campaignId}/close`, { method: `POST` })
+      await api(`/api/${slug}/campaigns/${campaignId}/close`, { method: `POST` })
     } catch (e) {
       error.value = e instanceof Error ? e.message : `Failed to close campaign`
     } finally {

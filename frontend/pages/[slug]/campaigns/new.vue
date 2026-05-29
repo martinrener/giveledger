@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
-import type { Campaign } from '~/types/campaign'
-import type { CreateCampaignPayload } from '~/types/campaign'
+import type { Campaign, CreateCampaignPayload } from '~/types/campaign'
 
 definePageMeta({ middleware: `auth` })
 
@@ -12,9 +11,9 @@ const slug  = computed(() => route.params.slug as string)
 const store = useCampaignsStore()
 const { loading, error } = storeToRefs(store)
 
-const showModal   = ref(false)
-const succeeded   = ref(false)
-const pending     = ref<CreateCampaignPayload | null>(null)
+const showModal = ref(false)
+const succeeded = ref(false)
+const pending   = ref<CreateCampaignPayload | null>(null)
 
 const previewCampaign = computed<Campaign | null>(() => {
   if (!pending.value) { return null }
@@ -44,45 +43,32 @@ const handleConfirm = async () => {
     pending.value   = null
   }
 }
-
-const handleModalClose = () => {
-  showModal.value = false
-}
 </script>
 
 <template>
   <div class="mx-auto max-w-lg">
     <h1 class="mb-6 text-2xl font-bold text-neutral-900">{{ $t(`campaign.create`) }}</h1>
 
-    <div
-      v-if="succeeded"
-      class="flex flex-col gap-4 rounded-xl border border-success-200 bg-success-50 px-6 py-5"
-    >
-      <div>
-        <p class="font-semibold text-success-800">{{ $t(`campaign.created`) }}</p>
-        <p class="mt-1 text-sm text-success-700">{{ $t(`campaign.created_body`) }}</p>
-      </div>
-      <div class="flex gap-3">
+    <AlertBanner v-if="succeeded" variant="success" class="mb-4">
+      <p class="font-semibold">{{ $t(`campaign.created`) }}</p>
+      <p class="mt-1 text-sm opacity-80">{{ $t(`campaign.created_body`) }}</p>
+      <div class="mt-4 flex gap-3">
         <NuxtLink :to="`/${slug}/dashboard`">
           <BaseButton variant="primary" size="sm">
             {{ $t(`campaign.back_to_dashboard`) }}
           </BaseButton>
         </NuxtLink>
-        <BaseButton
-          variant="secondary"
-          size="sm"
-          @click="succeeded = false"
-        >
+        <BaseButton variant="secondary" size="sm" @click="succeeded = false">
           {{ $t(`campaign.create`) }}
         </BaseButton>
       </div>
-    </div>
+    </AlertBanner>
 
     <template v-else>
       <div class="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
         <CampaignForm @submit="handleFormSubmit" />
-        <p v-if="error" class="mt-3 text-sm text-red-600">{{ error }}</p>
       </div>
+      <AlertBanner v-if="error" variant="error" class="mt-3">{{ error }}</AlertBanner>
     </template>
 
     <ConfirmOpenModal
@@ -90,7 +76,7 @@ const handleModalClose = () => {
       :open="showModal"
       :campaign="previewCampaign"
       @confirm="handleConfirm"
-      @close="handleModalClose"
+      @close="showModal = false"
     />
   </div>
 </template>
