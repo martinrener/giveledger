@@ -36,7 +36,21 @@ onMounted(() => store.fetchAdminCampaigns(slug.value))
 
 useSse(
   () => `/api/${slug.value}/stream`,
-  () => store.fetchAdminCampaigns(slug.value),
+  (type, data) => {
+    if (type === `DonationRecorded`) {
+      const d = data as { campaignId: string; donationId: string; donorName: string; amountCents: number; currency: string }
+      const campaign = _.find(campaigns.value, c => c.id === d.campaignId)
+      if (!campaign) { return }
+      campaign.raisedCents += d.amountCents
+      campaign.donations   = [
+        ...campaign.donations,
+        { id: d.donationId, campaignId: d.campaignId, donorName: d.donorName, amountCents: d.amountCents, recordedAt: new Date().toISOString() },
+      ]
+    } else {
+      store.fetchAdminCampaigns(slug.value)
+    }
+  },
+  { onConnect: () => store.fetchAdminCampaigns(slug.value) },
 )
 </script>
 

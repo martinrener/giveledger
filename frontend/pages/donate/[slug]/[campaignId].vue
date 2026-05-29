@@ -37,16 +37,6 @@ const handleConfirm = async () => {
 }
 
 onMounted(() => store.fetchCampaigns(slug.value))
-
-useSse(
-  () => `/api/donate/${slug.value}/stream`,
-  (_type, data) => {
-    const d = data as { campaignId?: string }
-    if (d?.campaignId === campaignId.value) {
-      store.fetchCampaigns(slug.value)
-    }
-  },
-)
 </script>
 
 <template>

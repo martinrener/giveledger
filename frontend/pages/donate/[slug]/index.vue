@@ -25,11 +25,6 @@ const handleDonate = (campaignId: string) => {
 }
 
 onMounted(() => store.fetchCampaigns(slug.value))
-
-useSse(
-  () => `/api/donate/${slug.value}/stream`,
-  () => store.fetchCampaigns(slug.value),
-)
 </script>
 
 <template>

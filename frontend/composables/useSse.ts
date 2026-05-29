@@ -3,9 +3,14 @@ interface SseEvent {
   data: unknown
 }
 
+interface SseOptions {
+  onConnect?: () => void
+}
+
 const useSse = (
   getUrl: () => string,
   onEvent: (type: string, data: unknown) => void,
+  options: SseOptions = {},
 ) => {
   const connected = ref(false)
   let source: EventSource | null = null
@@ -15,7 +20,10 @@ const useSse = (
 
     source = new EventSource(getUrl())
 
-    source.onopen = () => { connected.value = true }
+    source.onopen = () => {
+      connected.value = true
+      options.onConnect?.()
+    }
 
     source.onmessage = (e: MessageEvent<string>) => {
       try {
