@@ -1,26 +1,78 @@
 {
+  "common": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "loading": "Loading...",
+    "save": "Save",
+    "close": "Close",
+    "actions": "Actions"
+  },
   "campaigns": {
     "title": "Campaigns",
-    "search": "Search campaigns",
+    "search": "Search campaigns...",
+    "empty": "No campaigns found.",
     "status": {
       "open": "Open",
       "closed": "Closed"
     }
   },
   "campaign": {
+    "name": "Campaign Name",
     "goal": "Goal",
     "raised": "Raised",
     "donors": "Donors",
     "deadline": "Deadline",
+    "currency": "Currency",
     "donate": "Donate",
-    "close": "Close Campaign"
+    "close": "Close Campaign",
+    "create": "Create Campaign",
+    "launch": "Launch Campaign",
+    "progress": "{percent}% of goal reached",
+    "confirm_open": {
+      "title": "Launch Campaign",
+      "body": "You are about to launch \"{name}\". Once live, donors will be able to contribute.",
+      "cta": "Yes, Launch"
+    },
+    "confirm_close": {
+      "title": "Close Campaign",
+      "body": "You are about to close \"{name}\". This action cannot be undone.",
+      "cta": "Yes, Close",
+      "warning": "Warning: this campaign has not yet reached its goal."
+    }
   },
   "donation": {
     "title": "Make a Donation",
     "amount": "Amount",
     "donor": "Your Name",
     "confirm": "Confirm Donation",
-    "success": "Thank you for your donation!"
+    "success": "Thank you for your donation!",
+    "confirm_title": "Confirm your donation",
+    "confirm_body": "{name} · {amount} to \"{campaign}\""
+  },
+  "tenant": {
+    "select": "Select your church",
+    "visit": "View Campaigns"
+  },
+  "auth": {
+    "logout": "Log out",
+    "login": "Log in"
+  },
+  "table": {
+    "name": "Name",
+    "status": "Status",
+    "goal": "Goal",
+    "raised": "Raised",
+    "deadline": "Deadline",
+    "actions": "Actions",
+    "total": "Total",
+    "empty": "No campaigns yet."
+  },
+  "validation": {
+    "required": "This field is required.",
+    "nameRequired": "Name is required.",
+    "nameLength": "Name must be between 3 and 100 characters.",
+    "amountPositive": "Amount must be greater than 0.",
+    "invalidCurrency": "Please select a valid currency."
   },
   "errors": {
     "not_found": "The requested resource was not found.",
