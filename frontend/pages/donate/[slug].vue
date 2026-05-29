@@ -29,6 +29,12 @@ onMounted(() => store.fetchCampaigns(slug.value))
 
 <template>
   <div class="flex flex-col gap-6">
+    <div class="flex items-center gap-3">
+      <NuxtLink to="/" class="text-sm text-neutral-500 hover:text-neutral-800">
+        ← {{ $t(`common.back`) }}
+      </NuxtLink>
+    </div>
+
     <div class="flex items-center justify-between gap-4">
       <h1 class="text-2xl font-bold text-neutral-900">{{ $t(`campaigns.title`) }}</h1>
       <BaseInput
@@ -40,7 +46,7 @@ onMounted(() => store.fetchCampaigns(slug.value))
 
     <p v-if="loading" class="text-sm text-neutral-400">{{ $t(`common.loading`) }}</p>
 
-    <p v-else-if="error" class="text-sm text-red-600">{{ error }}</p>
+    <AlertBanner v-else-if="error" variant="error">{{ error }}</AlertBanner>
 
     <p v-else-if="filtered.length === 0" class="text-sm text-neutral-400">
       {{ $t(`campaigns.empty`) }}

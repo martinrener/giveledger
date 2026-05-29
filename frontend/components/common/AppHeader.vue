@@ -14,38 +14,37 @@ const handleLogout = async () => {
 </script>
 
 <template>
-  <header class="border-b border-neutral-200 bg-white px-6 py-4">
+  <header class="bg-primary-600 px-6 py-4 shadow-sm">
     <div class="mx-auto flex max-w-5xl items-center justify-between">
       <div class="flex items-center gap-3">
-        <NuxtLink to="/" class="text-sm text-neutral-400 hover:text-neutral-600">
+        <NuxtLink to="/" class="text-sm font-bold tracking-wide text-white/90 hover:text-white">
           GiveLedger
         </NuxtLink>
-        <span v-if="churchName" class="text-neutral-300">/</span>
-        <span v-if="churchName" class="text-sm font-semibold text-neutral-800">
+        <span v-if="churchName" class="text-white/30">/</span>
+        <span v-if="churchName" class="text-sm font-semibold text-white">
           {{ churchName }}
         </span>
       </div>
-      <nav class="flex items-center gap-4">
+
+      <nav class="flex items-center gap-3">
         <NuxtLink
           v-if="isAuthenticated && slug"
           :to="`/${slug}/dashboard`"
-          class="text-sm text-neutral-600 hover:text-neutral-900"
+          class="text-sm font-medium text-white/80 hover:text-white"
         >
           Dashboard
         </NuxtLink>
         <button
           v-if="isAuthenticated"
-          class="text-sm text-neutral-500 hover:text-neutral-800"
+          class="text-sm text-white/60 hover:text-white"
           @click="handleLogout"
         >
           {{ $t(`auth.logout`) }}
         </button>
-        <NuxtLink
-          v-else
-          to="/admin"
-          class="text-sm text-neutral-500 hover:text-neutral-800"
-        >
-          {{ $t(`auth.login`) }}
+        <NuxtLink v-else to="/admin">
+          <BaseButton variant="secondary" size="sm">
+            {{ $t(`common.admin_panel`) }}
+          </BaseButton>
         </NuxtLink>
       </nav>
     </div>

@@ -5,7 +5,9 @@
     "loading": "Loading...",
     "save": "Save",
     "close": "Close",
-    "actions": "Actions"
+    "actions": "Actions",
+    "back": "Back",
+    "admin_panel": "Admin Panel"
   },
   "campaigns": {
     "title": "Campaigns",

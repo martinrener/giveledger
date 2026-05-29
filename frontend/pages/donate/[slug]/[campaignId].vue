@@ -39,6 +39,13 @@ onMounted(() => store.fetchCampaigns(slug.value))
 
 <template>
   <div class="mx-auto max-w-lg">
+    <NuxtLink
+      :to="`/donate/${slug}`"
+      class="mb-5 inline-flex items-center gap-1 text-sm text-neutral-500 hover:text-neutral-800"
+    >
+      ← {{ $t(`common.back`) }}
+    </NuxtLink>
+
     <p v-if="loading" class="text-sm text-neutral-400">{{ $t(`common.loading`) }}</p>
 
     <AlertBanner v-else-if="!campaign" variant="error">
@@ -46,13 +53,19 @@ onMounted(() => store.fetchCampaigns(slug.value))
     </AlertBanner>
 
     <template v-else>
-      <div class="mb-6 flex flex-col gap-1">
+      <div class="mb-6 flex flex-col gap-2">
         <h1 class="text-2xl font-bold text-neutral-900">{{ campaign.name }}</h1>
         <ProgressBar :raised-cents="campaign.raisedCents" :goal-cents="campaign.goalCents" />
       </div>
 
       <AlertBanner v-if="succeeded" variant="success" class="text-center">
         <p class="font-semibold">{{ $t(`donation.success`) }}</p>
+        <NuxtLink
+          :to="`/donate/${slug}`"
+          class="mt-3 inline-block text-sm font-medium underline"
+        >
+          ← {{ $t(`common.back`) }}
+        </NuxtLink>
       </AlertBanner>
 
       <div v-else class="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">

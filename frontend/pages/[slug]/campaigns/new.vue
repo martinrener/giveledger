@@ -47,6 +47,13 @@ const handleConfirm = async () => {
 
 <template>
   <div class="mx-auto max-w-lg">
+    <NuxtLink
+      :to="`/${slug}/dashboard`"
+      class="mb-5 inline-flex items-center gap-1 text-sm text-neutral-500 hover:text-neutral-800"
+    >
+      ← {{ $t(`common.back`) }}
+    </NuxtLink>
+
     <h1 class="mb-6 text-2xl font-bold text-neutral-900">{{ $t(`campaign.create`) }}</h1>
 
     <AlertBanner v-if="succeeded" variant="success" class="mb-4">

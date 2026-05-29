@@ -17,12 +17,26 @@ const { t: $t }       = useI18n()
 const { formatCents } = useCurrency()
 
 const isClosed = computed(() => campaign.status === `closed`)
+
+const accentCva = cva(`border-l-4`, {
+  variants: {
+    status: {
+      open:   `border-l-primary-400`,
+      closed: `border-l-neutral-300`,
+    },
+  },
+})
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 rounded-xl border border-neutral-200 bg-white p-5 shadow-sm">
+  <div
+    :class="[
+      `flex flex-col gap-4 rounded-xl border border-neutral-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md`,
+      accentCva({ status: campaign.status }),
+    ]"
+  >
     <div class="flex items-start justify-between gap-2">
-      <h3 class="text-base font-semibold text-neutral-900">{{ campaign.name }}</h3>
+      <h3 class="text-base font-bold text-neutral-900 leading-snug">{{ campaign.name }}</h3>
       <BaseBadge :variant="campaign.status">
         {{ $t(`campaigns.status.${campaign.status}`) }}
       </BaseBadge>
@@ -30,26 +44,26 @@ const isClosed = computed(() => campaign.status === `closed`)
 
     <ProgressBar :raised-cents="campaign.raisedCents" :goal-cents="campaign.goalCents" />
 
-    <dl class="grid grid-cols-2 gap-2 text-sm text-neutral-600">
+    <dl class="grid grid-cols-2 gap-2 text-sm">
       <div>
-        <dt class="text-xs text-neutral-400">{{ $t(`campaign.raised`) }}</dt>
-        <dd class="font-medium text-neutral-900">
+        <dt class="text-xs font-medium text-neutral-400 uppercase tracking-wide">{{ $t(`campaign.raised`) }}</dt>
+        <dd class="mt-0.5 font-bold text-success-600">
           {{ formatCents(campaign.raisedCents, campaign.currency) }}
         </dd>
       </div>
       <div>
-        <dt class="text-xs text-neutral-400">{{ $t(`campaign.goal`) }}</dt>
-        <dd class="font-medium text-neutral-900">
+        <dt class="text-xs font-medium text-neutral-400 uppercase tracking-wide">{{ $t(`campaign.goal`) }}</dt>
+        <dd class="mt-0.5 font-semibold text-neutral-900">
           {{ formatCents(campaign.goalCents, campaign.currency) }}
         </dd>
       </div>
       <div>
-        <dt class="text-xs text-neutral-400">{{ $t(`campaign.deadline`) }}</dt>
-        <dd class="font-medium text-neutral-900">{{ campaign.deadline }}</dd>
+        <dt class="text-xs font-medium text-neutral-400 uppercase tracking-wide">{{ $t(`campaign.deadline`) }}</dt>
+        <dd class="mt-0.5 font-medium text-neutral-700">{{ campaign.deadline }}</dd>
       </div>
       <div>
-        <dt class="text-xs text-neutral-400">{{ $t(`campaign.donors`) }}</dt>
-        <dd class="font-medium text-neutral-900">{{ campaign.donations.length }}</dd>
+        <dt class="text-xs font-medium text-neutral-400 uppercase tracking-wide">{{ $t(`campaign.donors`) }}</dt>
+        <dd class="mt-0.5 font-semibold text-primary-600">{{ campaign.donations.length }}</dd>
       </div>
     </dl>
 
