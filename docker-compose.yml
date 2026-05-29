@@ -36,11 +36,13 @@ services:
       - app
 
   vue:
-    image: node:20-alpine
-    working_dir: /app
-    command: sh -c "npm install && npm run dev"
+    build:
+      context: .
+      dockerfile: docker/vue/Dockerfile
+      target: dev
     volumes:
       - ./frontend:/app
+      - /app/node_modules
     environment:
       NUXT_PUBLIC_API_BASE: /api
     networks:
