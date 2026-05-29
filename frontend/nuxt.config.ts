@@ -4,6 +4,10 @@ export default defineNuxtConfig({
     `@nuxtjs/tailwindcss`,
   ],
 
+  components: {
+    dirs: [{ path: `~/components`, pathPrefix: false }],
+  },
+
   css: [`~/assets/css/main.css`],
 
   plugins: [
