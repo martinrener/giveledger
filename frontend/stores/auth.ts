@@ -4,6 +4,11 @@ interface AuthSession {
   userEmail: string
 }
 
+const apiError = (e: unknown, fallback: string): string => {
+  const data = (e as { data?: { error?: string } })?.data
+  return data?.error ?? (e instanceof Error ? e.message : fallback)
+}
+
 export const useAuthStore = defineStore(`auth`, () => {
   const slug       = ref<string | null>(null)
   const churchName = ref<string | null>(null)
@@ -49,7 +54,7 @@ export const useAuthStore = defineStore(`auth`, () => {
       userEmail.value  = session.userEmail
       persist()
     } catch (e) {
-      error.value = e instanceof Error ? e.message : `Login failed`
+      error.value = apiError(e, `Login failed`)
     } finally {
       loading.value = false
     }
@@ -64,7 +69,7 @@ export const useAuthStore = defineStore(`auth`, () => {
         body:   { tenant_slug: tenantSlug, email, password },
       })
     } catch (e) {
-      error.value = e instanceof Error ? e.message : `Registration failed`
+      error.value = apiError(e, `Registration failed`)
     } finally {
       loading.value = false
     }

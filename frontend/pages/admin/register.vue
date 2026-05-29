@@ -1,14 +1,25 @@
 <script lang="ts" setup>
+import _ from 'lodash'
 import { storeToRefs } from 'pinia'
+import type { SelectOption } from '~/components/common/BaseSelect.vue'
 
 const { t: $t } = useI18n()
-const auth      = useAuthStore()
+const auth       = useAuthStore()
 const { loading, error } = storeToRefs(auth)
 
 const tenantSlug = ref(``)
 const email      = ref(``)
 const password   = ref(``)
 const succeeded  = ref(false)
+
+const tenantsStore = useTenantsStore()
+const tenantOptions = computed<SelectOption[]>(() =>
+  _.chain(tenantsStore.tenants)
+    .map(t => ({ value: t.slug, label: t.name }))
+    .value()
+)
+
+onMounted(tenantsStore.fetchTenants)
 
 const handleSubmit = async () => {
   await auth.register(tenantSlug.value, email.value, password.value)
@@ -28,12 +39,13 @@ const handleSubmit = async () => {
     </AlertBanner>
 
     <form v-else class="flex flex-col gap-4" @submit.prevent="handleSubmit">
-      <BaseInput
+      <BaseSelect
         id="tenant-slug"
         v-model="tenantSlug"
         :label="$t(`auth.tenant_slug`)"
+        :options="tenantOptions"
         :state="error ? `error` : `default`"
-        placeholder="my-church"
+        :placeholder="tenantsStore.loading ? $t(`common.loading`) : `Select your church`"
       />
       <BaseInput
         id="email"
