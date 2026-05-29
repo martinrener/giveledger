@@ -1,15 +1,77 @@
 services:
   nginx:
-    restart: always
-
-  php-fpm:
-    restart: always
-    volumes: []
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - php-fpm
+      - vue
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped
 
   vue:
-    restart: always
-    volumes: []
+    build:
+      context: .
+      dockerfile: docker/vue/Dockerfile
+      target: runtime
+    environment:
+      NUXT_PUBLIC_API_BASE: /api
+    networks:
+      - frontend
+    restart: unless-stopped
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    environment:
+      DB_HOST: mysql
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      APP_ENV: production
+      REDIS_HOST: redis
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - backend
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    networks:
+      - backend
+    restart: unless-stopped
 
   mysql:
-    restart: always
-    ports: []
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+
+networks:
+  frontend:
+  backend:
+    internal: true

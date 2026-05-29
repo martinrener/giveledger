@@ -17,5 +17,10 @@ COPY frontend/ .
 RUN npm run build
 
 # ── runtime (production) ───────────────────────────────────────────────────────
-FROM nginx:alpine AS runtime
-COPY --from=build /app/.output/public /usr/share/nginx/html
+FROM node:20-alpine AS runtime
+WORKDIR /app
+COPY --from=build /app/.output ./.output
+ENV NODE_ENV=production
+ENV HOST=0.0.0.0
+EXPOSE 3000
+CMD ["node", ".output/server/index.mjs"]
