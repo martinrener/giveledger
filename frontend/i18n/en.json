@@ -28,6 +28,11 @@
     "create": "Create Campaign",
     "launch": "Launch Campaign",
     "progress": "{percent}% of goal reached",
+    "created": "Campaign created successfully.",
+    "created_body": "Your campaign is now live. Donors can start contributing.",
+    "back_to_dashboard": "Back to Dashboard",
+    "closed_success": "Campaign closed.",
+    "new": "New Campaign",
     "confirm_open": {
       "title": "Launch Campaign",
       "body": "You are about to launch \"{name}\". Once live, donors will be able to contribute.",
@@ -55,7 +60,18 @@
   },
   "auth": {
     "logout": "Log out",
-    "login": "Log in"
+    "login": "Log in",
+    "login_title": "Staff Login",
+    "login_cta": "Log in",
+    "register_title": "Register your church",
+    "register_cta": "Create account",
+    "register_success": "Account created! You can now log in.",
+    "email": "Email address",
+    "password": "Password",
+    "tenant_slug": "Church Slug",
+    "no_account": "Don't have an account?",
+    "have_account": "Already have an account?",
+    "register": "Create an account"
   },
   "table": {
     "name": "Name",
