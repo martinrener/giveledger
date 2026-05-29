@@ -2,11 +2,12 @@
 import type { Campaign } from '~/types/campaign'
 
 export interface Props {
-  open:     boolean
-  campaign: Campaign
+  open:      boolean
+  campaign:  Campaign
+  loading?:  boolean
 }
 
-const { open, campaign } = defineProps<Props>()
+const { open, campaign, loading = false } = defineProps<Props>()
 
 const emit = defineEmits<{ confirm: []; close: [] }>()
 
@@ -38,10 +39,10 @@ const { formatCents } = useCurrency()
       </dl>
     </template>
     <template #footer>
-      <BaseButton variant="secondary" size="sm" @click="emit(`close`)">
+      <BaseButton variant="secondary" size="sm" :disabled="loading" @click="emit(`close`)">
         {{ $t(`common.cancel`) }}
       </BaseButton>
-      <BaseButton variant="primary" size="sm" @click="emit(`confirm`)">
+      <BaseButton variant="primary" size="sm" :loading="loading" :disabled="loading" @click="emit(`confirm`)">
         {{ $t(`campaign.confirm_open.cta`) }}
       </BaseButton>
     </template>

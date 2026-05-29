@@ -67,6 +67,25 @@ final class CampaignRepository implements CampaignRepositoryInterface
         }
     }
 
+    public function existsOpenWithNameAndDeadline(TenantId $tenantId, CampaignName $name, \DateTimeImmutable $deadline): bool
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT COUNT(*) FROM campaigns
+             WHERE tenant_id = :tenant_id
+               AND name      = :name
+               AND deadline  = :deadline
+               AND status    = 'open'"
+        );
+
+        $stmt->execute([
+            'tenant_id' => $tenantId->value(),
+            'name'      => $name->value(),
+            'deadline'  => $deadline->format('Y-m-d'),
+        ]);
+
+        return (int) $stmt->fetchColumn() > 0;
+    }
+
     private function hydrate(array $row): Campaign
     {
         $raisedCents = (int) $row['raised_cents'];

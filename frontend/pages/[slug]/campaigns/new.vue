@@ -35,7 +35,7 @@ const handleFormSubmit = (payload: CreateCampaignPayload) => {
 }
 
 const handleConfirm = async () => {
-  if (!pending.value) { return }
+  if (!pending.value || loading.value) { return }
   await store.createCampaign(slug.value, pending.value)
   showModal.value = false
   if (!store.error) {
@@ -82,6 +82,7 @@ const handleConfirm = async () => {
       v-if="previewCampaign"
       :open="showModal"
       :campaign="previewCampaign"
+      :loading="loading"
       @confirm="handleConfirm"
       @close="showModal = false"
     />

@@ -18,6 +18,7 @@ COPY config/ ./config/
 COPY db/ ./db/
 COPY public/ ./public/
 
+COPY docker/php/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY docker/php/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 

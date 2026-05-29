@@ -63,17 +63,18 @@ final class CampaignFinder
     private function autoClose(string $tenantId): void
     {
         $stmt = $this->pdo->prepare(
-            "UPDATE campaigns
-             SET status = 'closed'
-             WHERE tenant_id = :tenant_id
-               AND status    = 'open'
+            "UPDATE campaigns c
+             LEFT JOIN (
+               SELECT campaign_id, SUM(amount_cents) AS total
+               FROM donations
+               GROUP BY campaign_id
+             ) d ON d.campaign_id = c.id
+             SET c.status = 'closed'
+             WHERE c.tenant_id = :tenant_id
+               AND c.status    = 'open'
                AND (
-                 deadline < CURDATE()
-                 OR goal_cents <= (
-                   SELECT COALESCE(SUM(d.amount_cents), 0)
-                   FROM donations d
-                   WHERE d.campaign_id = campaigns.id
-                 )
+                 c.deadline  < CURDATE()
+                 OR c.goal_cents <= COALESCE(d.total, 0)
                )"
         );
 

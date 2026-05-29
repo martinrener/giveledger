@@ -22,12 +22,20 @@ final class CreateCampaignHandler
 
     public function __invoke(CreateCampaignCommand $command): void
     {
+        $tenantId = TenantId::of($command->tenantId);
+        $name     = CampaignName::of($command->name);
+        $deadline = new \DateTimeImmutable($command->deadline);
+
+        if ($this->campaigns->existsOpenWithNameAndDeadline($tenantId, $name, $deadline)) {
+            throw new \DomainException('An open campaign with this name and deadline already exists.');
+        }
+
         $campaign = Campaign::create(
             CampaignId::of($command->campaignId),
-            TenantId::of($command->tenantId),
-            CampaignName::of($command->name),
+            $tenantId,
+            $name,
             Money::of($command->goalCents, $command->currency),
-            new \DateTimeImmutable($command->deadline)
+            $deadline
         );
 
         $this->campaigns->save($campaign);
