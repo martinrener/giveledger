@@ -35,3 +35,12 @@ export interface RecordDonationPayload {
   amountCents: number
   currency: string
 }
+
+export interface DonationRecordedEvent {
+  tenantId:    string
+  campaignId:  string
+  donationId:  string
+  donorName:   string
+  amountCents: number
+  currency:    string
+}

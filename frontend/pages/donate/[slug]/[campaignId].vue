@@ -61,7 +61,7 @@ onMounted(() => store.fetchCampaigns(slug.value))
       </div>
 
       <AlertBanner v-if="isClosed" variant="warning">
-        This campaign is no longer accepting donations.
+        {{ $t(`campaign.closed_message`) }}
         <NuxtLink :to="`/donate/${slug}`" class="ml-1 font-medium underline">
           ← {{ $t(`common.back`) }}
         </NuxtLink>

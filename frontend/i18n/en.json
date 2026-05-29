@@ -34,6 +34,7 @@
     "created_body": "Your campaign is now live. Donors can start contributing.",
     "back_to_dashboard": "Back to Dashboard",
     "closed_success": "Campaign closed.",
+    "closed_message": "This campaign is no longer accepting donations.",
     "new": "New Campaign",
     "confirm_open": {
       "title": "Launch Campaign",
@@ -67,7 +68,9 @@
   },
   "tenant": {
     "select": "Select your church",
-    "visit": "View Campaigns"
+    "visit": "View Campaigns",
+    "admin_prompt": "Are you a church administrator?",
+    "admin_link": "Go to Admin Panel →"
   },
   "auth": {
     "logout": "Log out",

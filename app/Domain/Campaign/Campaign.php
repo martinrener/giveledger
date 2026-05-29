@@ -8,7 +8,7 @@ use App\Domain\Shared\Money;
 use App\Domain\Shared\TenantId;
 use App\Domain\Shared\TenantMismatchException;
 
-class Campaign
+final class Campaign
 {
     /** @var Donation[] */
     private array $donations = [];

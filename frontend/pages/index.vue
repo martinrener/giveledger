@@ -26,9 +26,9 @@ onMounted(store.fetchTenants)
 
   <footer class="fixed bottom-0 left-0 right-0 border-t border-neutral-200 bg-white/90 py-3 text-center backdrop-blur-sm">
     <p class="text-xs text-neutral-400">
-      Are you a church administrator?
+      {{ $t(`tenant.admin_prompt`) }}
       <NuxtLink to="/admin" class="ml-1 font-medium text-primary-600 hover:text-primary-800 hover:underline">
-        Go to Admin Panel →
+        {{ $t(`tenant.admin_link`) }}
       </NuxtLink>
     </p>
   </footer>

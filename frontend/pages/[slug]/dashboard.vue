@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import _ from 'lodash'
 import { storeToRefs } from 'pinia'
-import type { Campaign } from '~/types/campaign'
+import type { Campaign, DonationRecordedEvent } from '~/types/campaign'
 
 definePageMeta({ middleware: `auth` })
 
@@ -38,7 +38,7 @@ useSse(
   () => `/api/${slug.value}/stream`,
   (type, data) => {
     if (type === `DonationRecorded`) {
-      const d = data as { campaignId: string; donationId: string; donorName: string; amountCents: number; currency: string }
+      const d = data as DonationRecordedEvent
       const campaign = _.find(campaigns.value, c => c.id === d.campaignId)
       if (!campaign) { return }
       campaign.raisedCents += d.amountCents
