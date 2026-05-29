@@ -22,5 +22,12 @@ onMounted(store.fetchTenants)
     <div v-else class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
       <TenantCard v-for="tenant in tenants" :key="tenant.id" :tenant="tenant" />
     </div>
+
+    <div class="mt-4 border-t border-neutral-200 pt-6 text-center">
+      <p class="text-sm text-neutral-400">Are you a church administrator?</p>
+      <NuxtLink to="/admin" class="mt-2 inline-block text-sm font-medium text-primary-600 hover:text-primary-800 hover:underline">
+        Go to Admin Panel →
+      </NuxtLink>
+    </div>
   </div>
 </template>

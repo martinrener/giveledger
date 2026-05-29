@@ -41,7 +41,7 @@ const handleLogout = async () => {
         >
           {{ $t(`auth.logout`) }}
         </button>
-        <NuxtLink v-else to="/admin">
+        <NuxtLink to="/admin">
           <BaseButton variant="secondary" size="sm">
             {{ $t(`common.admin_panel`) }}
           </BaseButton>
