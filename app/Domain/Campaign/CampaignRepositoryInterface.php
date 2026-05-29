@@ -12,5 +12,5 @@ interface CampaignRepositoryInterface
 
     public function save(Campaign $campaign): void;
 
-    public function existsOpenWithNameAndDeadline(TenantId $tenantId, CampaignName $name, \DateTimeImmutable $deadline): bool;
+    public function existsOpenWithName(TenantId $tenantId, CampaignName $name): bool;
 }

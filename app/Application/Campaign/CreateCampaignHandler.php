@@ -26,8 +26,8 @@ final class CreateCampaignHandler
         $name     = CampaignName::of($command->name);
         $deadline = new \DateTimeImmutable($command->deadline);
 
-        if ($this->campaigns->existsOpenWithNameAndDeadline($tenantId, $name, $deadline)) {
-            throw new \DomainException('An open campaign with this name and deadline already exists.');
+        if ($this->campaigns->existsOpenWithName($tenantId, $name)) {
+            throw new \DomainException('An open campaign with this name already exists.');
         }
 
         $campaign = Campaign::create(
