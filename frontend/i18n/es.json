@@ -1,0 +1,118 @@
+{
+  "common": {
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "loading": "Cargando...",
+    "save": "Guardar",
+    "close": "Cerrar",
+    "actions": "Acciones",
+    "back": "Volver",
+    "admin_panel": "Panel de administración"
+  },
+  "campaigns": {
+    "title": "Campañas",
+    "search": "Buscar campañas...",
+    "empty": "No se encontraron campañas.",
+    "status": {
+      "open": "Abierta",
+      "closed": "Cerrada"
+    }
+  },
+  "campaign": {
+    "name": "Nombre de la campaña",
+    "name_placeholder": "ej. Fondo de restauración del techo",
+    "amount_placeholder": "0.00",
+    "goal": "Meta",
+    "raised": "Recaudado",
+    "donors": "Donantes",
+    "deadline": "Fecha límite",
+    "currency": "Moneda",
+    "donate": "Donar",
+    "close": "Cerrar campaña",
+    "create": "Crear campaña",
+    "launch": "Lanzar campaña",
+    "progress": "{percent}% de la meta alcanzada",
+    "created": "Campaña creada exitosamente.",
+    "created_body": "Tu campaña está activa. Los donantes ya pueden contribuir.",
+    "back_to_dashboard": "Volver al panel",
+    "closed_success": "Campaña cerrada.",
+    "closed_message": "Esta campaña ya no acepta donaciones.",
+    "new": "Nueva campaña",
+    "confirm_open": {
+      "title": "Lanzar campaña",
+      "body": "Estás a punto de lanzar \"{name}\". Una vez activa, los donantes podrán contribuir.",
+      "cta": "Sí, lanzar"
+    },
+    "confirm_close": {
+      "title": "Cerrar campaña",
+      "body": "Estás a punto de cerrar \"{name}\". Esta acción no se puede deshacer.",
+      "cta": "Sí, cerrar",
+      "warning": "Advertencia: esta campaña aún no ha alcanzado su meta."
+    }
+  },
+  "donation": {
+    "title": "Hacer una donación",
+    "amount": "Monto",
+    "donor": "Tu nombre",
+    "donor_placeholder": "Juan García",
+    "confirm": "Confirmar donación",
+    "success": "¡Gracias por tu donación!",
+    "confirm_title": "Confirma tu donación",
+    "confirm_body": "{name} · {amount} a \"{campaign}\""
+  },
+  "donors": {
+    "title": "Donantes",
+    "donor": "Donante",
+    "amount": "Monto",
+    "date": "Fecha",
+    "empty": "Aún no hay donaciones.",
+    "total": "Total recaudado",
+    "back_to_dashboard": "Volver al panel"
+  },
+  "tenant": {
+    "select": "Selecciona tu iglesia",
+    "subtitle": "Elige tu iglesia para ver las campañas activas.",
+    "visit": "Ver campañas",
+    "admin_prompt": "¿Eres administrador de una iglesia?",
+    "admin_link": "Ir al panel de administración →"
+  },
+  "auth": {
+    "logout": "Cerrar sesión",
+    "login": "Iniciar sesión",
+    "login_title": "Acceso para el personal",
+    "login_cta": "Iniciar sesión",
+    "register_title": "Registra tu iglesia",
+    "register_cta": "Crear cuenta",
+    "register_success": "¡Cuenta creada! Ya puedes iniciar sesión.",
+    "email": "Correo electrónico",
+    "email_placeholder": "admin@iglesia.org",
+    "password": "Contraseña",
+    "tenant_slug": "Identificador de la iglesia",
+    "no_account": "¿No tienes una cuenta?",
+    "have_account": "¿Ya tienes una cuenta?",
+    "register": "Crear una cuenta"
+  },
+  "table": {
+    "name": "Nombre",
+    "status": "Estado",
+    "goal": "Meta",
+    "raised": "Recaudado",
+    "deadline": "Fecha límite",
+    "actions": "Acciones",
+    "total": "Total",
+    "empty": "Aún no hay campañas."
+  },
+  "validation": {
+    "required": "Este campo es obligatorio.",
+    "nameRequired": "El nombre es obligatorio.",
+    "nameLength": "El nombre debe tener entre 3 y 100 caracteres.",
+    "amountPositive": "El monto debe ser mayor que 0.",
+    "invalidCurrency": "Por favor, selecciona una moneda válida.",
+    "deadlineMinTomorrow": "La fecha límite debe ser al menos un día en el futuro."
+  },
+  "errors": {
+    "not_found": "El recurso solicitado no fue encontrado.",
+    "server": "Ocurrió un error en el servidor. Por favor, intenta de nuevo.",
+    "tenant": "Iglesia no encontrada."
+  }
+}

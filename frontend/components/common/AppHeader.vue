@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router'
 const { t: $t } = useI18n()
 const router    = useRouter()
 const auth      = useAuthStore()
+const { locale, setLocale } = useLocale()
 const { slug, churchName, isAuthenticated } = storeToRefs(auth)
 
 const handleLogout = async () => {
@@ -26,7 +27,7 @@ const handleLogout = async () => {
         </span>
       </div>
 
-      <nav class="flex items-center gap-3">
+      <nav class="flex items-center gap-4">
         <NuxtLink
           v-if="isAuthenticated && slug"
           :to="`/${slug}/dashboard`"
@@ -34,6 +35,19 @@ const handleLogout = async () => {
         >
           Dashboard
         </NuxtLink>
+
+        <div class="flex items-center gap-1 text-sm font-medium">
+          <button
+            :class="locale === `en` ? `text-white` : `text-white/40 hover:text-white/70`"
+            @click="setLocale(`en`)"
+          >EN</button>
+          <span class="text-white/30">·</span>
+          <button
+            :class="locale === `es` ? `text-white` : `text-white/40 hover:text-white/70`"
+            @click="setLocale(`es`)"
+          >ES</button>
+        </div>
+
         <button
           v-if="isAuthenticated"
           class="text-sm text-white/60 hover:text-white"
