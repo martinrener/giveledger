@@ -88,7 +88,7 @@
     "email_placeholder": "admin'@'church.org",
     "password": "Password",
     "tenant_slug": "Church Slug",
-    "no_account": "Don't have an account?",
+    "no_account": "Don''t have an account?",
     "have_account": "Already have an account?",
     "register": "Create an account"
   },
