@@ -20,6 +20,8 @@
   },
   "campaign": {
     "name": "Campaign Name",
+    "name_placeholder": "e.g. Roof Restoration Fund",
+    "amount_placeholder": "0.00",
     "goal": "Goal",
     "raised": "Raised",
     "donors": "Donors",
@@ -52,6 +54,7 @@
     "title": "Make a Donation",
     "amount": "Amount",
     "donor": "Your Name",
+    "donor_placeholder": "Jane Smith",
     "confirm": "Confirm Donation",
     "success": "Thank you for your donation!",
     "confirm_title": "Confirm your donation",
@@ -68,6 +71,7 @@
   },
   "tenant": {
     "select": "Select your church",
+    "subtitle": "Choose your church to view active campaigns.",
     "visit": "View Campaigns",
     "admin_prompt": "Are you a church administrator?",
     "admin_link": "Go to Admin Panel →"
@@ -81,6 +85,7 @@
     "register_cta": "Create account",
     "register_success": "Account created! You can now log in.",
     "email": "Email address",
+    "email_placeholder": "admin@church.org",
     "password": "Password",
     "tenant_slug": "Church Slug",
     "no_account": "Don't have an account?",

@@ -12,7 +12,7 @@ onMounted(store.fetchTenants)
   <div class="flex flex-col gap-8">
     <div class="text-center">
       <h1 class="text-3xl font-bold text-neutral-900">{{ $t(`tenant.select`) }}</h1>
-      <p class="mt-2 text-sm text-neutral-500">Choose your church to view active campaigns.</p>
+      <p class="mt-2 text-sm text-neutral-500">{{ $t(`tenant.subtitle`) }}</p>
     </div>
 
     <p v-if="loading" class="text-center text-sm text-neutral-400">{{ $t(`common.loading`) }}</p>

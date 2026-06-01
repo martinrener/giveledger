@@ -79,7 +79,7 @@ const handleSubmit = () => {
       :label="$t(`campaign.name`)"
       :state="errors.name ? `error` : `default`"
       :error-message="errors.name"
-      placeholder="e.g. Roof Restoration Fund"
+      :placeholder="$t(`campaign.name_placeholder`)"
     />
 
     <div class="grid grid-cols-2 gap-4">
@@ -90,7 +90,7 @@ const handleSubmit = () => {
         :label="$t(`campaign.goal`)"
         :state="errors.goal ? `error` : `default`"
         :error-message="errors.goal"
-        placeholder="0.00"
+        :placeholder="$t(`campaign.amount_placeholder`)"
       />
       <BaseSelect
         id="campaign-currency"

@@ -43,19 +43,26 @@ final class CampaignFinder
     {
         $this->autoClose($tenantId);
 
-        $statusClause = $onlyOpen ? "AND c.status = 'open'" : '';
+        $params = ['tenant_id' => $tenantId];
+        $filter = '';
+
+        if ($onlyOpen) {
+            $filter           = 'AND c.status = :status';
+            $params['status'] = 'open';
+        }
 
         $query = $this->pdo->prepare(
-            "SELECT c.id, c.name, c.goal_cents, c.currency, c.status, c.deadline,
+            'SELECT c.id, c.name, c.goal_cents, c.currency, c.status, c.deadline,
                     COALESCE(SUM(d.amount_cents), 0) AS raised_cents
              FROM campaigns c
              LEFT JOIN donations d ON d.campaign_id = c.id
-             WHERE c.tenant_id = :tenant_id {$statusClause}
-             GROUP BY c.id
-             ORDER BY c.created_at DESC"
+             WHERE c.tenant_id = :tenant_id '
+            . $filter
+            . ' GROUP BY c.id
+             ORDER BY c.created_at DESC'
         );
 
-        $query->execute(['tenant_id' => $tenantId]);
+        $query->execute($params);
 
         return $query->fetchAll(\PDO::FETCH_ASSOC);
     }

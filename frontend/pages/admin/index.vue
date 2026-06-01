@@ -27,7 +27,7 @@ const handleSubmit = async () => {
         type="email"
         :label="$t(`auth.email`)"
         :state="error ? `error` : `default`"
-        placeholder="admin@church.org"
+        :placeholder="$t(`auth.email_placeholder`)"
       />
       <BaseInput
         id="password"

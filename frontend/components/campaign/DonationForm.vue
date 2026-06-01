@@ -54,7 +54,7 @@ const handleSubmit = () => {
       :label="$t(`donation.donor`)"
       :state="errors.donorName ? `error` : `default`"
       :error-message="errors.donorName"
-      placeholder="Jane Smith"
+      :placeholder="$t(`donation.donor_placeholder`)"
     />
     <BaseInput
       id="donation-amount"
@@ -63,7 +63,7 @@ const handleSubmit = () => {
       :label="$t(`donation.amount`)"
       :state="errors.amount ? `error` : `default`"
       :error-message="errors.amount"
-      placeholder="0.00"
+      :placeholder="$t(`campaign.amount_placeholder`)"
     />
     <div class="flex justify-end">
       <BaseButton type="submit" variant="primary">

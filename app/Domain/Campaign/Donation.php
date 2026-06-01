@@ -8,7 +8,7 @@ use App\Domain\Shared\Money;
 
 final class Donation
 {
-    public function __construct(
+    private function __construct(
         private readonly DonationId        $id,
         private readonly DonorName         $donorName,
         private readonly Money             $amount,

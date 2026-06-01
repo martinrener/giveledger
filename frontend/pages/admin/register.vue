@@ -45,7 +45,7 @@ const handleSubmit = async () => {
         :label="$t(`auth.tenant_slug`)"
         :options="tenantOptions"
         :state="error ? `error` : `default`"
-        :placeholder="tenantsStore.loading ? $t(`common.loading`) : `Select your church`"
+        :placeholder="tenantsStore.loading ? $t(`common.loading`) : $t(`tenant.select`)"
       />
       <BaseInput
         id="email"
@@ -53,7 +53,7 @@ const handleSubmit = async () => {
         type="email"
         :label="$t(`auth.email`)"
         :state="error ? `error` : `default`"
-        placeholder="admin@church.org"
+        :placeholder="$t(`auth.email_placeholder`)"
       />
       <BaseInput
         id="password"
