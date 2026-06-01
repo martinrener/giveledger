@@ -85,7 +85,7 @@
     "register_cta": "Crear cuenta",
     "register_success": "¡Cuenta creada! Ya puedes iniciar sesión.",
     "email": "Correo electrónico",
-    "email_placeholder": "admin'@'iglesia.org",
+    "email_placeholder": "admin\\@iglesia.org",
     "password": "Contraseña",
     "tenant_slug": "Identificador de la iglesia",
     "no_account": "¿No tienes una cuenta?",

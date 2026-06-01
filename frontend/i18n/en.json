@@ -85,10 +85,10 @@
     "register_cta": "Create account",
     "register_success": "Account created! You can now log in.",
     "email": "Email address",
-    "email_placeholder": "admin'@'church.org",
+    "email_placeholder": "admin\\@church.org",
     "password": "Password",
     "tenant_slug": "Church Slug",
-    "no_account": "Don''t have an account?",
+    "no_account": "Don't have an account?",
     "have_account": "Already have an account?",
     "register": "Create an account"
   },
