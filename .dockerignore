@@ -4,3 +4,6 @@ frontend/.output
 vendor
 .git
 .env
+*.pem
+localhost.sh
+deploy.sh
