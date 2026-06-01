@@ -31,7 +31,7 @@ final class AuthController
             'path'     => '/',
             'httponly' => true,
             'samesite' => 'Lax',
-            'secure'   => getenv('APP_ENV') === 'production',
+            'secure'   => ($_SERVER['HTTPS'] ?? '') === 'on' || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https',
         ]);
 
         $tenant = $this->tenantFinder->findById($result['tenantId']);
@@ -75,7 +75,7 @@ final class AuthController
             'path'     => '/',
             'httponly' => true,
             'samesite' => 'Lax',
-            'secure'   => getenv('APP_ENV') === 'production',
+            'secure'   => ($_SERVER['HTTPS'] ?? '') === 'on' || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https',
         ]);
 
         return [200, null];
