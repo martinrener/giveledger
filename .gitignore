@@ -2,3 +2,4 @@ vendor/
 .env
 frontend/node_modules/
 frontend/.nuxt/
+giveledger-key.pem
