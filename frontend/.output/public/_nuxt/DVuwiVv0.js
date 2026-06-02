@@ -1,0 +1,1 @@
+import{l as r,H as t}from"./Du6GvcTX.js";import{u as l}from"./DsbiZ9Dn.js";const f=r("tenants",()=>{const n=t([]),e=t(!1),a=t(null),o=l();return{tenants:n,loading:e,error:a,fetchTenants:async()=>{e.value=!0,a.value=null;try{n.value=await o("/api/tenants")}catch(s){a.value=s instanceof Error?s.message:"Failed to load churches"}finally{e.value=!1}}}});export{f as u};
