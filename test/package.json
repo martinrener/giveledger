@@ -1,0 +1,22 @@
+{
+  "name": "giveledger-tests",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test":        "playwright test",
+    "test:api":    "playwright test --project=api",
+    "test:ui":     "playwright test --project=chromium",
+    "test:setup":  "playwright test --project=setup",
+    "report":      "playwright show-report"
+  },
+  "devDependencies": {
+    "@types/node":                      "^20.0.0",
+    "@faker-js/faker":                  "^8.4.0",
+    "@playwright/test":                 "^1.44.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser":        "^8.0.0",
+    "dotenv":                           "^16.4.0",
+    "eslint":                           "^9.0.0",
+    "typescript":                       "^5.4.0"
+  }
+}
