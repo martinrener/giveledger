@@ -1,13 +1,22 @@
 services:
-  nginx:
+  app:
     build:
       context: .
-      dockerfile: docker/nginx/Dockerfile
+      dockerfile: docker/php/Dockerfile
     ports:
       - "80:80"
+    environment:
+      DB_HOST: mysql
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      APP_ENV: production
+      REDIS_HOST: redis
     depends_on:
-      - php-fpm
-      - vue
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
     networks:
       - frontend
       - backend
@@ -22,26 +31,6 @@ services:
       NUXT_PUBLIC_API_BASE: /api
     networks:
       - frontend
-    restart: unless-stopped
-
-  php-fpm:
-    build:
-      context: .
-      dockerfile: docker/php/Dockerfile
-    environment:
-      DB_HOST: mysql
-      DB_NAME: ${DB_NAME}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      APP_ENV: production
-      REDIS_HOST: redis
-    depends_on:
-      mysql:
-        condition: service_healthy
-      redis:
-        condition: service_started
-    networks:
-      - backend
     restart: unless-stopped
 
   redis:
