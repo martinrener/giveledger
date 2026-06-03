@@ -70,7 +70,7 @@ final class Campaign
         $this->guardTenant($tenantId);
         $this->guardOpen();
         $this->raised      = $this->raised->add($amount);
-        $this->donations[] = new Donation($id, $donorName, $amount, new \DateTimeImmutable());
+        $this->donations[] = Donation::create($id, $donorName, $amount, new \DateTimeImmutable());
     }
 
     public function close(TenantId $tenantId): void

@@ -15,6 +15,15 @@ final class Donation
         private readonly \DateTimeImmutable $recordedAt
     ) {}
 
+    public static function create(
+        DonationId $id,
+        DonorName $donorName,
+        Money $amount,
+        \DateTimeImmutable $recordedAt
+    ): self {
+        return new self($id, $donorName, $amount, $recordedAt);
+    }
+
     public function id(): DonationId
     {
         return $this->id;

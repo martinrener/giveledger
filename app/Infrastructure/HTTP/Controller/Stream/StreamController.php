@@ -19,6 +19,15 @@ final class StreamController
         header('Cache-Control: no-cache');
         header('X-Accel-Buffering: no');
 
+        // Without an initial echo+flush, PHP-FPM never commits the response
+        // headers to nginx. The browser's EventSource stays in CONNECTING state
+        // forever and onopen never fires.
+        echo ": connected\n\n";
+        if (ob_get_level() > 0) {
+            ob_flush();
+        }
+        flush();
+
         $channel = "tenant:{$tenantId}";
 
         $this->redis->subscribe([$channel], function (\Redis $_redis, string $_channel, string $message): void {
