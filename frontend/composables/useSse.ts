@@ -18,7 +18,7 @@ const useSse = (
   const connect = () => {
     if (!import.meta.client) { return }
 
-    source = new EventSource(getUrl())
+    source = new EventSource(getUrl(), { withCredentials: true })
 
     source.onopen = () => {
       connected.value = true

@@ -21,7 +21,7 @@ COPY public/ ./public/
 
 COPY docker/php/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY docker/php/entrypoint.sh /entrypoint.sh
-COPY docker/nginx/nginx.conf /etc/nginx/sites-available/default
+COPY docker/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY start.sh /usr/local/bin/start.sh
 RUN chmod +x /entrypoint.sh /usr/local/bin/start.sh
 

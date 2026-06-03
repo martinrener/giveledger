@@ -30,7 +30,6 @@ final class AuthController
             'expires'  => time() + 86400,
             'path'     => '/',
             'httponly' => true,
-            'samesite' => 'Lax',
             'secure'   => ($_SERVER['HTTPS'] ?? '') === 'on' || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https',
         ]);
 
@@ -74,7 +73,6 @@ final class AuthController
             'expires'  => time() - 3600,
             'path'     => '/',
             'httponly' => true,
-            'samesite' => 'Lax',
             'secure'   => ($_SERVER['HTTPS'] ?? '') === 'on' || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https',
         ]);
 

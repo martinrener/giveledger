@@ -19,11 +19,10 @@ use App\Infrastructure\Query\CampaignFinder;
 use App\Infrastructure\Query\DonationFinder;
 use App\Infrastructure\Query\TenantFinder;
 
-header('Content-Type: application/json');
-
 // --- Respond helper ---
 $respond = static function (int $status, mixed $body): never {
     http_response_code($status);
+    header('Content-Type: application/json');
     echo json_encode($body);
     exit;
 };
