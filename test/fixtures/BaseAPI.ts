@@ -1,16 +1,19 @@
 import { request } from '@playwright/test'
 import type { APIRequestContext } from '@playwright/test'
 
+// Playwright resolves paths starting with "/" against the origin only (standard URL spec),
+// so "/auth/login" + baseURL "http://host/api" → "http://host/auth/login" (drops /api).
+// We construct absolute URLs explicitly to avoid this.
+const base = (): string => (process.env.API_BASE_URL ?? 'http://localhost/api').replace(/\/$/, '')
+
 export class BaseAPI {
     private ctx!: APIRequestContext
     public slug!: string
 
     async init(email: string, password: string): Promise<void> {
-        this.ctx = await request.newContext({
-            baseURL: process.env.API_BASE_URL,
-        })
+        this.ctx = await request.newContext()
 
-        const res = await this.ctx.post('/auth/login', {
+        const res = await this.ctx.post(`${base()}/auth/login`, {
             data: { email, password },
         })
 
@@ -23,39 +26,35 @@ export class BaseAPI {
     }
 
     async initUnauthenticated(slug: string): Promise<void> {
-        this.ctx = await request.newContext({
-            baseURL: process.env.API_BASE_URL,
-        })
+        this.ctx = await request.newContext()
         this.slug = slug
     }
 
-    // Admin routes: GET /api/:slug/...
+    // Admin routes: /api/:slug/...
     adminGet(path: string, opts?: Parameters<APIRequestContext['get']>[1]) {
-        return this.ctx.get(`/${this.slug}${path}`, opts)
+        return this.ctx.get(`${base()}/${this.slug}${path}`, opts)
     }
 
-    // Admin routes: POST /api/:slug/...
     adminPost(path: string, opts?: Parameters<APIRequestContext['post']>[1]) {
-        return this.ctx.post(`/${this.slug}${path}`, opts)
+        return this.ctx.post(`${base()}/${this.slug}${path}`, opts)
     }
 
-    // Public donate routes: GET /api/donate/:slug/...
+    // Public donate routes: /api/donate/:slug/...
     donateGet(path: string, opts?: Parameters<APIRequestContext['get']>[1]) {
-        return this.ctx.get(`/donate/${this.slug}${path}`, opts)
+        return this.ctx.get(`${base()}/donate/${this.slug}${path}`, opts)
     }
 
-    // Public donate routes: POST /api/donate/:slug/...
     donatePost(path: string, opts?: Parameters<APIRequestContext['post']>[1]) {
-        return this.ctx.post(`/donate/${this.slug}${path}`, opts)
+        return this.ctx.post(`${base()}/donate/${this.slug}${path}`, opts)
     }
 
-    // Raw — caller provides full path (used in isolation tests to send wrong slug)
+    // Raw — caller provides a path segment (used in isolation tests to cross slugs)
     get(path: string, opts?: Parameters<APIRequestContext['get']>[1]) {
-        return this.ctx.get(path, opts)
+        return this.ctx.get(`${base()}${path}`, opts)
     }
 
     post(path: string, opts?: Parameters<APIRequestContext['post']>[1]) {
-        return this.ctx.post(path, opts)
+        return this.ctx.post(`${base()}${path}`, opts)
     }
 
     async dispose(): Promise<void> {
