@@ -3,6 +3,8 @@ import { BasePage } from '../fixtures/BasePage'
 export class DonateListPage extends BasePage {
     async visit(slug: string) {
         await this.goto(`/donate/${slug}`)
+        // Wait for loading to finish — either campaigns or empty state
+        await this.locator('h3, p:has-text("No campaigns")').first().waitFor()
     }
 
     async search(query: string) {
@@ -10,18 +12,15 @@ export class DonateListPage extends BasePage {
     }
 
     async clickDonate(campaignName: string) {
-        const card = this.locator('div').filter({
-            has: this.locator('h3', { hasText: campaignName }),
-        })
-        await card.getByRole('button', { name: 'Donate' }).click()
-        await this.waitForURL(new RegExp(campaignName.split(' ')[0]))
+        await this.campaignCard(campaignName).getByRole('button', { name: 'Donate' }).click()
+        await this.waitForURL(/donate\/[^/]+\/[^/]+$/)
     }
 
-    campaignNames() {
+    campaignCard(campaignName: string) {
+        return this.locator('.flex-col.gap-4.rounded-xl').filter({ has: this.locator('h3', { hasText: campaignName }) })
+    }
+
+    async campaignNames() {
         return this.locator('h3').allTextContents()
-    }
-
-    isCampaignVisible(campaignName: string) {
-        return this.getByRole('heading', { name: campaignName, level: 3 }).isVisible()
     }
 }

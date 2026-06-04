@@ -3,33 +3,33 @@ import { BasePage } from '../fixtures/BasePage'
 export class DonationFormPage extends BasePage {
     async visit(slug: string, campaignId: string) {
         await this.goto(`/donate/${slug}/${campaignId}`)
+        await this.getByRole('heading', { level: 1 }).waitFor()
     }
 
-    // Full donation flow: fill form → confirm modal → wait for success
     async donate(donorName: string, amountDollars: number) {
         await this.getByLabel('Your Name').fill(donorName)
         await this.getByLabel('Amount').fill(String(amountDollars))
 
-        // Submit the form — opens the confirmation modal
+        // Submit form — opens confirmation modal
         await this.getByRole('button', { name: 'Confirm Donation' }).click()
 
-        // Wait for modal, then confirm with the modal button (last occurrence = modal's button)
+        // Wait for modal, confirm with the modal button (last occurrence)
         await this.getByText('Confirm your donation').waitFor()
         await this.getByRole('button', { name: 'Confirm Donation' }).last().click()
 
-        // Wait for success state
         await this.getByText('Thank you for your donation!').waitFor()
     }
 
-    isDonationSuccessVisible() {
-        return this.getByText('Thank you for your donation!').isVisible()
+    donationSuccess() {
+        return this.getByText('Thank you for your donation!')
     }
 
-    isClosedWarningVisible() {
-        return this.getByText('This campaign is no longer accepting donations.').isVisible()
+    async goBack() {
+        await this.getByRole('link', { name: /Back/ }).first().click()
+        await this.waitForURL(/\/donate\//)
     }
 
-    campaignName() {
-        return this.getByRole('heading', { level: 1 }).textContent()
+    closedWarning() {
+        return this.getByText('This campaign is no longer accepting donations.')
     }
 }

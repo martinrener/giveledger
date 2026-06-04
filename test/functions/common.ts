@@ -44,12 +44,16 @@ export const oversizedName = (): string => faker.string.alpha(101)
 // Generates a valid UUID v4 that does not correspond to any existing entity
 export const nonExistentId = (): string => faker.string.uuid()
 
+// UI-specific helpers
+export const futureDeadline = (): string => faker.date.future({ years: 1 }).toISOString().split('T')[0]
+
 // --- Semantic invalid values ---
 
 // Amounts
 export const zeroAmount     = (): number => 0
 export const negativeAmount = (): number => -100
 export const validAmount    = (): number => faker.number.int({ min: 100, max: 10_000 })
+export const validGoal      = (): number => faker.number.int({ min: 10_000, max: 1_000_000 })
 
 // A goal large enough that test donations won't trigger auto-close
 export const largeGoal = (): number => 10_000_000
@@ -70,13 +74,15 @@ export const anyPassword       = (): string => 'password123'
 
 // Tenant credentials from env — centralises process.env access so tests stay clean
 export const tenantA = () => ({
-    slug:     process.env.TENANT_A_SLUG     ?? '',
+    slug:     process.env.TENANT_A_SLUG           ?? '',
+    name:     process.env.TENANT_A_NAME           ?? '',
     email:    process.env.TENANT_A_ADMIN_EMAIL    ?? '',
     password: process.env.TENANT_A_ADMIN_PASSWORD ?? '',
 })
 
 export const tenantB = () => ({
-    slug:     process.env.TENANT_B_SLUG     ?? '',
+    slug:     process.env.TENANT_B_SLUG           ?? '',
+    name:     process.env.TENANT_B_NAME           ?? '',
     email:    process.env.TENANT_B_ADMIN_EMAIL    ?? '',
     password: process.env.TENANT_B_ADMIN_PASSWORD ?? '',
 })

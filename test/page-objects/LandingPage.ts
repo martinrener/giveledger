@@ -5,13 +5,11 @@ export class LandingPage extends BasePage {
 
     async visit() {
         await this.goto(LandingPage.URL)
+        await this.getByRole('heading', { level: 1 }).waitFor()
     }
 
     async selectTenant(tenantName: string) {
-        const card = this.locator('div').filter({
-            has: this.locator('h3', { hasText: tenantName }),
-        })
-        await card.getByRole('link', { name: 'View Campaigns' }).click()
+        await this.tenantCard(tenantName).getByRole('link', { name: 'View Campaigns' }).click()
         await this.waitForURL(/\/donate\//)
     }
 
@@ -20,7 +18,12 @@ export class LandingPage extends BasePage {
         await this.waitForURL('/admin')
     }
 
-    tenantNames() {
+    tenantCard(tenantName: string) {
+        return this.locator('.overflow-hidden.rounded-xl').filter({ has: this.locator('h3', { hasText: tenantName }) })
+    }
+
+    async tenantNames() {
+        await this.locator('h3').first().waitFor()
         return this.locator('h3').allTextContents()
     }
 }

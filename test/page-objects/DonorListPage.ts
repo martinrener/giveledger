@@ -3,30 +3,25 @@ import { BasePage } from '../fixtures/BasePage'
 export class DonorListPage extends BasePage {
     async visit(slug: string, campaignId: string) {
         await this.goto(`/${slug}/campaigns/${campaignId}/donors`)
+        await this.getByRole('heading', { level: 1 }).waitFor()
     }
 
     async backToDashboard() {
-        await this.getByRole('link', { name: 'Back to Dashboard' }).click()
+        // Link text includes "← Back to Dashboard" — use regex to match partial text
+        await this.getByRole('link', { name: /Back to Dashboard/ }).click()
         await this.waitForURL(/dashboard/)
     }
 
-    campaignName() {
-        return this.getByRole('heading', { level: 1 }).textContent()
+    donorRow(donorName: string) {
+        return this.locator('tbody tr').filter({ hasText: donorName })
     }
 
-    donorNames() {
+    async donorNames() {
+        await this.locator('tbody tr').first().waitFor()
         return this.locator('tbody tr td:first-child').allTextContents()
     }
 
-    donorCount() {
+    async donorCount() {
         return this.locator('tbody tr').count()
-    }
-
-    statusBadge() {
-        return this.locator('[class*="rounded-full"]').first().textContent()
-    }
-
-    isDonorVisible(donorName: string) {
-        return this.getByRole('cell', { name: donorName }).isVisible()
     }
 }

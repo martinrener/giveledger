@@ -5,9 +5,9 @@ export class LoginPage extends BasePage {
 
     async visit() {
         await this.goto(LoginPage.URL)
+        await this.getByRole('button', { name: 'Log in' }).waitFor()
     }
 
-    // Full login flow: fill credentials → submit → wait for dashboard redirect
     async login(email: string, password: string) {
         await this.getByLabel('Email address').fill(email)
         await this.getByLabel('Password').fill(password)
@@ -21,11 +21,12 @@ export class LoginPage extends BasePage {
         await this.getByRole('button', { name: 'Log in' }).click()
     }
 
-    getErrorMessage() {
-        return this.locator('.text-red-600').textContent()
+    async goToRegister() {
+        await this.getByRole('link', { name: 'Create an account' }).click()
+        await this.waitForURL('/admin/register')
     }
 
-    isOnLoginPage() {
-        return this.getByRole('button', { name: 'Log in' }).isVisible()
+    errorMessage() {
+        return this.locator('.text-red-600')
     }
 }

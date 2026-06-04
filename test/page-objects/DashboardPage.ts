@@ -3,6 +3,7 @@ import { BasePage } from '../fixtures/BasePage'
 export class DashboardPage extends BasePage {
     async visit(slug: string) {
         await this.goto(`/${slug}/dashboard`)
+        await this.getByRole('heading', { name: 'Campaigns', level: 1 }).waitFor()
     }
 
     async goToNewCampaign() {
@@ -10,21 +11,19 @@ export class DashboardPage extends BasePage {
         await this.waitForURL(/campaigns\/new/)
     }
 
-    // Full close flow: click Close Campaign in row → confirm in modal → wait for status update
     async closeCampaign(campaignName: string) {
-        const row = this.getByRole('row').filter({ hasText: campaignName })
+        const row = this.campaignRow(campaignName)
         await row.getByRole('button', { name: 'Close Campaign' }).click()
 
-        // Wait for modal, then confirm
         await this.getByText('You are about to close').waitFor()
         await this.getByRole('button', { name: 'Yes, Close' }).click()
 
-        // Wait for the campaign status to update in the table
+        // Wait for the row status to update
         await row.getByText('Closed').waitFor()
     }
 
     async clickDonors(campaignName: string) {
-        await this.getByRole('row').filter({ hasText: campaignName }).click()
+        await this.campaignRow(campaignName).click()
         await this.waitForURL(/donors/)
     }
 
@@ -33,19 +32,15 @@ export class DashboardPage extends BasePage {
         await this.waitForURL('/admin')
     }
 
-    campaignNames() {
+    campaignRow(campaignName: string) {
+        return this.getByRole('row').filter({ hasText: campaignName })
+    }
+
+    async campaignNames() {
         return this.locator('tbody tr td:first-child').allTextContents()
     }
 
-    isCampaignVisible(campaignName: string) {
-        return this.getByRole('row').filter({ hasText: campaignName }).isVisible()
-    }
-
-    getCampaignStatus(campaignName: string) {
-        return this.getByRole('row')
-            .filter({ hasText: campaignName })
-            .getByRole('cell')
-            .nth(1)
-            .textContent()
+    async getCampaignStatus(campaignName: string) {
+        return this.campaignRow(campaignName).getByRole('cell').nth(1).textContent()
     }
 }

@@ -16,6 +16,8 @@ const handleSubmit = async () => {
     await router.push(`/${slug.value}/dashboard`)
   }
 }
+
+const goToRegister = () => router.push(`/admin/register`)
 </script>
 
 <template>
