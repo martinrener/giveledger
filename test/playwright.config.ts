@@ -8,6 +8,7 @@ export default defineConfig({
     retries:       process.env.CI ? 1 : 0,
     workers:       process.env.CI ? 2 : undefined,
     reporter: [
+        ['./reporter/reporter.ts'],
         ['html'],
         ['list'],
     ],

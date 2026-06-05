@@ -24,7 +24,7 @@ export class DonationFormPage extends BasePage {
         return this.getByText('Thank you for your donation!')
     }
 
-    async goBack() {
+    async backToCampaignList() {
         await this.getByRole('link', { name: /Back/ }).first().click()
         await this.waitForURL(/\/donate\//)
     }

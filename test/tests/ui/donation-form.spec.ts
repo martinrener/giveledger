@@ -26,7 +26,7 @@ test.describe('Donation Form Page', () => {
         await donationFormPage.visit(tenantA().slug, campaignId)
 
         // Act
-        await donationFormPage.goBack()
+        await donationFormPage.backToCampaignList()
 
         // Assert
         await expect(donationFormPage.page).toHaveURL(`/donate/${tenantA().slug}`)
