@@ -34,7 +34,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Start services
-        run: docker-compose up -d
+        run: docker compose up -d
 
       - name: Wait for API health
         run: |
@@ -45,7 +45,7 @@ jobs:
             sleep 2
             if [ $((SECONDS - START)) -ge $TIMEOUT ]; then
               echo "Error: API did not respond within ${TIMEOUT}s"
-              docker-compose logs
+              docker compose logs
               exit 1
             fi
           done
