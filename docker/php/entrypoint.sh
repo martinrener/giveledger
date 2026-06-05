@@ -15,6 +15,13 @@ for f in /app/db/migrations/*.sql; do
     echo "  Applying $f"
     $MYSQL < "$f"
 done
+echo "Migrations complete."
 
-echo "Migrations complete. Starting php-fpm..."
+if [ "$APP_ENV" = "development" ]; then
+    echo "Running seeds..."
+    $MYSQL < /app/db/seeds/dev.sql
+    echo "Seeds complete."
+fi
+
+echo "Starting php-fpm..."
 exec "$@"
