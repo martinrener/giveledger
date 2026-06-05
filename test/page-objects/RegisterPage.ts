@@ -22,7 +22,7 @@ export class RegisterPage extends BasePage {
     }
 
     errorMessage() {
-        return this.locator('.text-red-600')
+        return this.getByTestId('field-error')
     }
 
     async goToLogin() {

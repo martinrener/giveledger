@@ -19,11 +19,11 @@ export class LandingPage extends BasePage {
     }
 
     tenantCard(tenantName: string) {
-        return this.locator('.overflow-hidden.rounded-xl').filter({ has: this.locator('h3', { hasText: tenantName }) })
+        return this.getByTestId('tenant-card').filter({ has: this.getByRole('heading', { name: tenantName, level: 3 }) })
     }
 
     async tenantNames() {
-        await this.locator('h3').first().waitFor()
-        return this.locator('h3').allTextContents()
+        await this.getByRole('heading', { level: 3 }).first().waitFor()
+        return this.getByRole('heading', { level: 3 }).allTextContents()
     }
 }

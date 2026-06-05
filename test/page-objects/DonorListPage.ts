@@ -13,15 +13,15 @@ export class DonorListPage extends BasePage {
     }
 
     donorRow(donorName: string) {
-        return this.locator('tbody tr').filter({ hasText: donorName })
+        return this.getByRole('row').filter({ hasText: donorName })
     }
 
     async donorNames() {
-        await this.locator('tbody tr').first().waitFor()
-        return this.locator('tbody tr td:first-child').allTextContents()
+        await this.getByTestId('donor-name-cell').first().waitFor()
+        return this.getByTestId('donor-name-cell').allTextContents()
     }
 
     async donorCount() {
-        return this.locator('tbody tr').count()
+        return this.getByTestId('donor-name-cell').count()
     }
 }

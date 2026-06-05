@@ -28,8 +28,8 @@ const { formatCents } = useCurrency()
       ]"
       @click="adminMode && emit(`rowClick`, c.id)"
     >
-      <td class="px-4 py-3 font-medium text-neutral-900">{{ c.name }}</td>
-      <td class="px-4 py-3">
+      <td data-testid="campaign-name-cell" class="px-4 py-3 font-medium text-neutral-900">{{ c.name }}</td>
+      <td data-testid="campaign-status-cell" class="px-4 py-3">
         <BaseBadge :variant="c.status">
           {{ $t(`campaigns.status.${c.status}`) }}
         </BaseBadge>

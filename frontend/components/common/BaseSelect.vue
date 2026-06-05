@@ -53,6 +53,6 @@ const selectCva = cva(
       <option v-if="placeholder" value="" disabled>{{ placeholder }}</option>
       <option v-for="opt in options" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
     </select>
-    <p v-if="state === `error` && errorMessage" class="text-xs text-red-600">{{ errorMessage }}</p>
+    <p v-if="state === `error` && errorMessage" data-testid="field-error" class="text-xs text-red-600">{{ errorMessage }}</p>
   </div>
 </template>

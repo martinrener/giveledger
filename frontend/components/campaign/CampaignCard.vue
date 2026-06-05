@@ -30,6 +30,7 @@ const accentCva = cva(`border-l-4`, {
 
 <template>
   <div
+    data-testid="campaign-card"
     :class="[
       `flex flex-col gap-4 rounded-xl border border-neutral-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md`,
       accentCva({ status: campaign.status }),

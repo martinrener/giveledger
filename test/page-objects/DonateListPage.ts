@@ -4,7 +4,7 @@ export class DonateListPage extends BasePage {
     async visit(slug: string) {
         await this.goto(`/donate/${slug}`)
         // Wait for loading to finish — either campaigns or empty state
-        await this.locator('h3, p:has-text("No campaigns")').first().waitFor()
+        await this.getByRole('heading', { level: 3 }).or(this.getByTestId('campaign-list-empty')).first().waitFor()
     }
 
     async search(query: string) {
@@ -17,10 +17,10 @@ export class DonateListPage extends BasePage {
     }
 
     campaignCard(campaignName: string) {
-        return this.locator('.flex-col.gap-4.rounded-xl').filter({ has: this.locator('h3', { hasText: campaignName }) })
+        return this.getByTestId('campaign-card').filter({ has: this.getByRole('heading', { name: campaignName, level: 3 }) })
     }
 
     async campaignNames() {
-        return this.locator('h3').allTextContents()
+        return this.getByRole('heading', { level: 3 }).allTextContents()
     }
 }

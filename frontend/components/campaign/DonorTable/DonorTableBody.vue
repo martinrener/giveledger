@@ -27,7 +27,7 @@ const formatDate = (iso: string) =>
       :key="d.id"
       class="hover:bg-neutral-50 transition-colors"
     >
-      <td class="px-4 py-3 font-medium text-neutral-900">{{ d.donorName }}</td>
+      <td data-testid="donor-name-cell" class="px-4 py-3 font-medium text-neutral-900">{{ d.donorName }}</td>
       <td class="px-4 py-3 text-right font-semibold text-success-600">
         {{ formatCents(d.amountCents, currency) }}
       </td>

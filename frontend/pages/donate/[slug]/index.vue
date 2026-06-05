@@ -48,7 +48,7 @@ onMounted(() => store.fetchCampaigns(slug.value))
 
     <AlertBanner v-else-if="error" variant="error">{{ error }}</AlertBanner>
 
-    <p v-else-if="filtered.length === 0" class="text-sm text-neutral-400">
+    <p v-else-if="filtered.length === 0" data-testid="campaign-list-empty" class="text-sm text-neutral-400">
       {{ $t(`campaigns.empty`) }}
     </p>
 

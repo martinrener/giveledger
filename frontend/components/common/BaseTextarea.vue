@@ -47,6 +47,6 @@ const textareaCva = cva(
       :class="textareaCva({ state })"
       @input="emit(`update:modelValue`, ($event.target as HTMLTextAreaElement).value)"
     />
-    <p v-if="state === `error` && errorMessage" class="text-xs text-red-600">{{ errorMessage }}</p>
+    <p v-if="state === `error` && errorMessage" data-testid="field-error" class="text-xs text-red-600">{{ errorMessage }}</p>
   </div>
 </template>

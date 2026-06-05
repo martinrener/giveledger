@@ -37,10 +37,10 @@ export class DashboardPage extends BasePage {
     }
 
     async campaignNames() {
-        return this.locator('tbody tr td:first-child').allTextContents()
+        return this.getByTestId('campaign-name-cell').allTextContents()
     }
 
     async getCampaignStatus(campaignName: string) {
-        return this.campaignRow(campaignName).getByRole('cell').nth(1).textContent()
+        return this.campaignRow(campaignName).getByTestId('campaign-status-cell').textContent()
     }
 }
