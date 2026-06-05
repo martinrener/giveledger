@@ -41,29 +41,51 @@ final class CampaignRepository implements CampaignRepositoryInterface
              ON DUPLICATE KEY UPDATE name = VALUES(name), goal_cents = VALUES(goal_cents), status = VALUES(status)'
         );
 
-        $upsertCampaign->execute([
-            'id'         => $campaign->id()->value(),
-            'tenant_id'  => $campaign->tenantId()->value(),
-            'name'       => $campaign->name()->value(),
-            'goal_cents' => $campaign->goal()->toCents(),
-            'currency'   => $campaign->goal()->currency(),
-            'status'     => $campaign->status()->value(),
-            'deadline'   => $campaign->deadline()->format('Y-m-d'),
-        ]);
-
         $insertDonation = $this->pdo->prepare(
             'INSERT INTO donations (id, campaign_id, donor_name, amount_cents, recorded_at)
              VALUES (:id, :campaign_id, :donor_name, :amount_cents, :recorded_at)'
         );
 
-        foreach ($campaign->donations() as $donation) {
-            $insertDonation->execute([
-                'id'           => $donation->id()->value(),
-                'campaign_id'  => $campaign->id()->value(),
-                'donor_name'   => $donation->donorName()->value(),
-                'amount_cents' => $donation->amount()->toCents(),
-                'recorded_at'  => $donation->recordedAt()->format('Y-m-d H:i:s'),
-            ]);
+        // Wrap in a transaction and retry on deadlock (SQLSTATE 40001).
+        // Deadlocks occur under concurrent load when autoClose JOINs the donations
+        // table while save() is inserting into it — MySQL detects the lock cycle
+        // and rolls back one of the transactions; retrying resolves it cleanly.
+        $maxAttempts = 3;
+        for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
+            try {
+                $this->pdo->beginTransaction();
+
+                $upsertCampaign->execute([
+                    'id'         => $campaign->id()->value(),
+                    'tenant_id'  => $campaign->tenantId()->value(),
+                    'name'       => $campaign->name()->value(),
+                    'goal_cents' => $campaign->goal()->toCents(),
+                    'currency'   => $campaign->goal()->currency(),
+                    'status'     => $campaign->status()->value(),
+                    'deadline'   => $campaign->deadline()->format('Y-m-d'),
+                ]);
+
+                foreach ($campaign->donations() as $donation) {
+                    $insertDonation->execute([
+                        'id'           => $donation->id()->value(),
+                        'campaign_id'  => $campaign->id()->value(),
+                        'donor_name'   => $donation->donorName()->value(),
+                        'amount_cents' => $donation->amount()->toCents(),
+                        'recorded_at'  => $donation->recordedAt()->format('Y-m-d H:i:s'),
+                    ]);
+                }
+
+                $this->pdo->commit();
+                return;
+            } catch (\PDOException $e) {
+                $this->pdo->rollBack();
+                // 40001 = SQLSTATE deadlock — retry with brief backoff
+                if ($e->errorInfo[0] === '40001' && $attempt < $maxAttempts) {
+                    usleep(random_int(5_000, 20_000) * $attempt);
+                    continue;
+                }
+                throw $e;
+            }
         }
     }
 
