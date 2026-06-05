@@ -118,5 +118,6 @@ try {
 } catch (\InvalidArgumentException $e) {
     $respond(400, ['error' => $e->getMessage()]);
 } catch (\RuntimeException $e) {
+    error_log('[500] ' . get_class($e) . ': ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
     $respond(500, ['error' => 'Internal server error']);
 }
