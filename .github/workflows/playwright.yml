@@ -33,12 +33,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Build images
+        run: docker compose build
+
       - name: Start services
         run: docker compose up -d
 
       - name: Wait for API health
         run: |
-          TIMEOUT=60
+          TIMEOUT=120
           START=$SECONDS
           until curl -sf http://localhost/api/health; do
             echo "Waiting for API..."
