@@ -26,7 +26,6 @@ services:
     build:
       context: .
       dockerfile: docker/vue/Dockerfile
-      target: runtime
     environment:
       NUXT_PUBLIC_API_BASE: /api
     networks:

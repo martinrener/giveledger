@@ -39,7 +39,6 @@ services:
     build:
       context: .
       dockerfile: docker/vue/Dockerfile
-      target: dev
     volumes:
       - ./frontend:/app
       - /app/node_modules
