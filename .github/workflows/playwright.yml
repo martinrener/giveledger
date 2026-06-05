@@ -52,6 +52,9 @@ jobs:
               exit 1
             fi
           done
+      - name: Debug php-fpm logs
+        if: always()
+        run: docker compose logs php-fpm
 
       - uses: actions/setup-node@v4
         with:
