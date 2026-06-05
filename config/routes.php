@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Infrastructure\HTTP\Controller\Auth\AuthController;
 use App\Infrastructure\HTTP\Controller\Campaign\CampaignController;
 use App\Infrastructure\HTTP\Controller\Donation\DonationController;
+use App\Infrastructure\HTTP\Controller\Health\HealthController;
 use App\Infrastructure\HTTP\Controller\Stream\StreamController;
 use App\Infrastructure\HTTP\Controller\Tenant\TenantController;
 
@@ -19,6 +20,9 @@ use App\Infrastructure\HTTP\Controller\Tenant\TenantController;
  * Order matters: specific patterns must come before generic /:slug patterns.
  */
 return [
+    // --- Health (public) ---
+    ['GET', '#^/api/health$#', 'public', HealthController::class, 'ping'],
+
     // --- Auth (public) ---
     ['POST', '#^/api/auth/login$#',    'public', AuthController::class, 'login'],
     ['POST', '#^/api/auth/register$#', 'public', AuthController::class, 'register'],

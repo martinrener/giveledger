@@ -8,6 +8,7 @@ use App\Infrastructure\Application\HandlerBus;
 use App\Infrastructure\HTTP\Controller\Auth\AuthController;
 use App\Infrastructure\HTTP\Controller\Campaign\CampaignController;
 use App\Infrastructure\HTTP\Controller\Donation\DonationController;
+use App\Infrastructure\HTTP\Controller\Health\HealthController;
 use App\Infrastructure\HTTP\Controller\Stream\StreamController;
 use App\Infrastructure\HTTP\Controller\Tenant\TenantController;
 use App\Infrastructure\HTTP\Middleware\AuthMiddleware;
@@ -102,6 +103,7 @@ $bus = new HandlerBus($pdo, $redis);
 $tenantFinder = new TenantFinder($pdo);
 
 $controller = match ($controllerClass) {
+    HealthController::class   => new HealthController(),
     TenantController::class   => new TenantController($tenantFinder),
     CampaignController::class => new CampaignController($bus, new CampaignFinder($pdo), new DonationFinder($pdo)),
     DonationController::class => new DonationController($bus),
