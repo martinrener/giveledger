@@ -1,3 +1,4 @@
+import type { APIResponse } from '@playwright/test'
 import type { CampaignApi } from '../api-objects/CampaignApi'
 import type { PublicCampaignApi } from '../api-objects/PublicCampaignApi'
 import { generateCampaignData } from '../functions/common'
@@ -39,21 +40,14 @@ export const createCampaign = async (
     return created.id
 }
 
-export const getCampaigns = async (api: CampaignApi): Promise<Campaign[]> => {
+const fetchCampaigns = async (api: { list(): Promise<APIResponse> }, label: string): Promise<Campaign[]> => {
     const res = await api.list()
-    if (!res.ok()) {
-        throw new Error(`getCampaigns failed: ${res.status()}`)
-    }
+    if (!res.ok()) throw new Error(`${label} failed: ${res.status()}`)
     return res.json()
 }
 
-export const getPublicCampaigns = async (api: PublicCampaignApi): Promise<Campaign[]> => {
-    const res = await api.list()
-    if (!res.ok()) {
-        throw new Error(`getPublicCampaigns failed: ${res.status()}`)
-    }
-    return res.json()
-}
+export const getCampaigns       = (api: CampaignApi):       Promise<Campaign[]> => fetchCampaigns(api, 'getCampaigns')
+export const getPublicCampaigns = (api: PublicCampaignApi): Promise<Campaign[]> => fetchCampaigns(api, 'getPublicCampaigns')
 
 export const closeCampaign = async (api: CampaignApi, campaignId: string): Promise<void> => {
     const res = await api.close(campaignId)

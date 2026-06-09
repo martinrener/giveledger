@@ -1,8 +1,7 @@
 import { request } from '@playwright/test'
 import type { AuthApi } from '../api-objects/AuthApi'
 import { tenantA } from '../functions/common'
-
-const base = (): string => (process.env.API_BASE_URL ?? 'http://localhost/api').replace(/\/$/, '')
+import { base } from '../fixtures/BaseAPI'
 
 export const loginAsTenantA = (api: AuthApi) =>
     api.login(tenantA().email, tenantA().password)

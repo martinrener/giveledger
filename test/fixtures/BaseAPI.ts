@@ -4,7 +4,7 @@ import type { APIRequestContext } from '@playwright/test'
 // Playwright resolves paths starting with "/" against the origin only (standard URL spec),
 // so "/auth/login" + baseURL "http://host/api" → "http://host/auth/login" (drops /api).
 // We construct absolute URLs explicitly to avoid this.
-const base = (): string => (process.env.API_BASE_URL ?? 'http://localhost/api').replace(/\/$/, '')
+export const base = (): string => (process.env.API_BASE_URL ?? 'http://localhost/api').replace(/\/$/, '')
 
 export class BaseAPI {
     private ctx!: APIRequestContext
